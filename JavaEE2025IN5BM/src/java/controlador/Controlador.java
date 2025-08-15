@@ -17,6 +17,9 @@ public class Controlador extends HttpServlet {
     DetalleFactura detalleFactura = new DetalleFactura();
     DetalleFacturaDAO detalleFacturaDao = new DetalleFacturaDAO();
     int codCliente;
+    Empleado empleado = new Empleado();
+    EmpleadoDAO empleadoDAO = new EmpleadoDAO();
+    int codEmpleado;
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -61,11 +64,25 @@ public class Controlador extends HttpServlet {
                     break;
             }
             request.getRequestDispatcher("ClientesAdmin.jsp").forward(request, response);
-        } else if (menu.equals("EmpleadosAdmin")) {
+        } else if (menu.equals("MecanicosAdmin")) {
             switch (accion) {
                 case "Listar":
+                    List<Empleado> listaEmpleados = empleadoDAO.listar();
+                    request.setAttribute("empleados", listaEmpleados);
                     break;
                 case "Agregar":
+                    String nombreEmp = request.getParameter("txtNombreEmpleado");
+                    String telefonoEmp = request.getParameter("txtTelefonoEmpleado");
+                    String correoEmp = request.getParameter("txtCorreoEmpleado");
+                    String direccionEmp = request.getParameter("txtDireccionEmpleado");
+                    String puestoEmp = request.getParameter("txtPuestoEmpleado");
+                    empleado.setNombreEmpleado(nombreEmp);
+                    empleado.setTelefonoEmpleado(telefonoEmp);
+                    empleado.setCorreoEmpleado(correoEmp);
+                    empleado.setDireccion(direccionEmp);
+                    empleado.setPuesto(Empleado.Puesto.valueOf(puestoEmp)); 
+                    empleadoDAO.agregar(empleado);
+                    request.getRequestDispatcher("Controlador?menu=MecanicosAdmin&accion=Listar").forward(request, response);
                     break;
                 case "Editar":
                     break;
