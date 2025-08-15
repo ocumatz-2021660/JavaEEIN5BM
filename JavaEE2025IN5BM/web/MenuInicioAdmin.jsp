@@ -143,7 +143,7 @@
                     <img src="Images/facturabanner.jpg" alt="Diagnóstico computarizado" class="service-img">
                     <h3>Factura</h3>
                     <p class="service-description">Procesos de cobro de facturas y detalles anidados a la factura </p>
-                    <a class="service-btn view-details" href="Controlador?menu=FacturaAdmin&accion=Listar&accion=Listar" target="myFrame">Ingresar</a>                       
+                    <a class="service-btn view-details" href="Controlador?menu=FacturaAdmin&accion=Listar" target="myFrame">Ingresar</a>                       
                 </div>
 
 

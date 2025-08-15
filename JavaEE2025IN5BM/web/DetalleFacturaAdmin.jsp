@@ -4,20 +4,22 @@
     Author     : Clara Lopez
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="Styles/CRUD.css">
-    <link rel="icon" href="Images/logo.png" type="Image/png">
-    <title>Administracion Detalle Factura</title>
-</head>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="Styles/CRUD.css">
+        <link rel="icon" href="Images/logo.png" type="Image/png">
+        <title>Administracion Detalle Factura</title>
+    </head>
     <header class="headerOpciones">
         <div class="bannerHorario">
             <span><i class="bx bx-time-five"></i>Lunes a Viernes: 8:00 -
-            17:30 - Sabado: 8:00 - 12:00</span>
+                17:30 - Sabado: 8:00 - 12:00</span>
             <div class="social">
                 <a href="#"><i class="bx bxl-instagram"></i></a>
                 <a href="#"><i class="bx bxl-facebook"></i></a>
@@ -47,7 +49,7 @@
         <nav class="bannerOpciones">
             <ul class="menu">
                 <li><a href="MenuInicioAdmin.jsp">Inicio</a></li>
-                <li><a href="FacturaAdmin.jsp">Facturas</a></li>
+                <li><a href="Controlador?menu=FacturaAdmin&accion=Listar">Facturas</a></li>
             </ul>
         </nav>
     </header>
@@ -55,15 +57,13 @@
         <section class="top-container">
             <div class="formulario">
                 <h2>Agregar / Modificar Detalles de facturas</h2>
-                <form>
-                    <label for="codigoDelle">No. Detalle factura</label>
-                    <input type="text" id="codigoDetalle" placeholder="Ej: 1010"> 
+                <form action="Controlador?menu=DetalleFacturaAdmin" method="POST"> 
 
                     <label for="codigoFacturaDetalle">No.Factura</label>
-                    <input type="text" id="codigoFacturaDetalle" placeholder="Ej: 1010">
+                    <input value="${detalleFactura.getCodigoFactura()}"min="0" type="number" name="txtCodigoFacturaDetalle" placeholder="Ej: 1010" required>
 
                     <label for="tipoGasto">Tipo de gasto</label>
-                    <select id="tipoGasto">
+                    <select value="${detalleFactura.getTipoGasto()}" name="txtTipoGasto" required>
                         <option value="Servicio">Servicio</option>
                         <option value="Reparacion">Reparacion</option>
                         <option value="Llanta">Llanta</option>
@@ -72,11 +72,14 @@
                     </select>
 
                     <Label for="codigoGasto">Codigo Gasto</Label>
-                    <input type="text" id="codigoGasto" placeholder="Ej: Servicio: 1">
+                    <input value="${detalleFactura.getCodigoGasto()}" min="0" type="number" name="txtCodigoGasto" placeholder="Ej: Servicio: 1" required>
 
                     <label for="cantidad">cantidad</label>
-                    <input type="text" id="cantidad" placeholder="0">                                    
+                    <input value="${detalleFactura.getCantidad()}" min="0" type="number" name="txtCantidad" placeholder="0" required>                                    
+                    <button name="accion" value="Agregar" class="btn btn-primary btn-block btn-agregar">Agregar</button>
+                    <button name="accion" value="Buscar" class="btn btn-primary btn-block btn-Actualizar">Actualizar</button>
                 </form>
+                     <button class="scroll-footer-btn" onclick="document.getElementById('footer').scrollIntoView({behavior: 'smooth'})">Ir al final</button>
             </div>
             <div class="tabla-registros">
                 <h2>Detalles facturas registradas</h2>
@@ -88,16 +91,23 @@
                             <th>Tipo de gasot</th>
                             <th>No.Gasto</th>
                             <th>cantidad</th>
+                            <th>Acciones</th>
                         </tr>  
                     </thead>   
                     <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>1</td>
-                            <td>Servicio</td>
-                            <td>1</td>
-                            <td>1</td>
-                        </tr>
+                        <c:forEach var="detalleFactura" items="${detalleFacturas}">
+                            <tr>
+                                <td>${detalleFactura.getCodigoDetalle()}</td>
+                                <td>${detalleFactura.getCodigoFactura()}</td>
+                                <td>${detalleFactura.getTipoGasto()}</td>
+                                <td>${detalleFactura.getCodigoGasto()}</td>
+                                <td>${detalleFactura.getCantidad()}</td>
+                                <td>
+                                    <button name="accion" value="Buscar" class="btn btn-primary btn-block btn-Actualizar">Editar</button>
+                                    <button name="accion" value="Buscar" class="btn btn-primary btn-block btn-drop">Eliminar</button>
+                                </td>
+                            </tr>
+                        </c:forEach>
                     </tbody>               
                 </table>
             </div>
@@ -119,7 +129,9 @@
             </div>
         </section>
     </main>
-<body>
-    
-</body>
+    <body>
+        <footer id="footer" style="padding: 20px; text-align:center;">
+            <p>&copy; 2025 La caja de cambios - Todos los derechos reservados.</p>
+        </footer>
+    </body>
 </html> 

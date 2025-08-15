@@ -14,6 +14,8 @@ public class Controlador extends HttpServlet {
     ClienteDAO clienteDAO = new ClienteDAO();
     Factura factura = new Factura();
     FacturaDAO facturaDAO = new FacturaDAO();
+    DetalleFactura detalleFactura = new DetalleFactura();
+    DetalleFacturaDAO detalleFacturaDao = new DetalleFacturaDAO();
     int codCliente;
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -240,8 +242,26 @@ public class Controlador extends HttpServlet {
         } else if (menu.equals("DetalleFacturaAdmin")) {
             switch (accion) {
                 case "Listar":
+                    List listaDetalleFactura = detalleFacturaDao.listar();
+                    request.setAttribute("detalleFacturas", listaDetalleFactura);
+                    System.out.println("Mostrar detalle Facturas");
                     break;
                 case "Agregar":
+                    int codigoFacuta = Integer.parseInt(request.getParameter("txtCodigoFacturaDetalle"));
+                    String tipoGasto = request.getParameter("txtTipoGasto");
+                    int codigoGasto = Integer.parseInt(request.getParameter("txtCodigoGasto"));
+                    int cantidad = Integer.parseInt(request.getParameter("txtCantidad"));
+                    detalleFactura.setCodigoFactura(codigoFacuta);
+                    detalleFactura.setTipoGasto(DetalleFactura.TipoGasto.valueOf(tipoGasto));
+                    detalleFactura.setCodigoGasto(codigoGasto);
+                    detalleFactura.setCantidad(cantidad);
+                    detalleFacturaDao.agregar(detalleFactura);
+                    if (factura != null) {
+                        request.getRequestDispatcher("Controlador?menu=DetalleFacturaAdmin&accion=Listar").forward(request, response);
+                        System.out.println("DetalleFactura agregado correctaemente");
+                    } else {
+                        System.out.println("No se pudo agregar el detalle factura");
+                    }
                     break;
                 case "Editar":
                     break;

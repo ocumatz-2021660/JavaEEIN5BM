@@ -49,7 +49,7 @@
             <nav class="bannerOpciones">
                 <ul class="menu">
                     <li><a href="MenuInicioAdmin.jsp">Inicio</a></li>
-                    <li><a href="Controlador?menu?DetalleFacturaAdmin">Detalle factura </a></li>                
+                    <li><a href="Controlador?menu=DetalleFacturaAdmin&accion=Listar">Detalle factura </a></li>                
                 </ul>
             </nav>
         </header>
