@@ -16,10 +16,8 @@ public class ClienteDAO {
     int resp;
     
     public Cliente validar(String email, String pass) {
-        //Instanciar el objeto de la entidad Cliene
         Cliente cliente = new Cliente();
-        //Agregar una variable de tipo string para nuestra consulta sql
-        String sql = "select * from Cliente where correoCliente = ? and contrasena = ?";
+        String sql = "call sp_validarCliente(?, ?)";
         try {
             con = cn.Conexion();
             ps = con.prepareCall(sql);
@@ -41,7 +39,7 @@ public class ClienteDAO {
     }
     
     public List listar() {
-        String sql = "select * from Cliente";
+        String sql = "call sp_ListarCliente();";
         List<Cliente> listaClientes = new ArrayList<>();
         try {
             con = cn.Conexion();
@@ -65,7 +63,7 @@ public class ClienteDAO {
     }
     
     public int agregar(Cliente cl) {
-        String sql = "insert into Cliente(nombreCliente, telefonoCliente, correoCliente, direccion, contrasena, rol) values (?, ?, ?, ?, ?, ?)";
+        String sql = "call sp_AgregarCliente(?, ?, ?, ?, ?, ?)";
         try {
             con = cn.Conexion();
             ps = con.prepareStatement(sql);

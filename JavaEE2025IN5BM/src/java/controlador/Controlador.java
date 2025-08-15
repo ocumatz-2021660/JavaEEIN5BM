@@ -16,6 +16,8 @@ public class Controlador extends HttpServlet {
     FacturaDAO facturaDAO = new FacturaDAO();
     DetalleFactura detalleFactura = new DetalleFactura();
     DetalleFacturaDAO detalleFacturaDao = new DetalleFacturaDAO();
+    Auto auto = new Auto();
+    AutoDAO autoDAO = new AutoDAO();
     int codCliente;
     Empleado empleado = new Empleado();
     EmpleadoDAO empleadoDAO = new EmpleadoDAO();
@@ -144,19 +146,37 @@ public class Controlador extends HttpServlet {
                     break;
             }
             request.getRequestDispatcher("FacturaAdmin.jsp").forward(request, response);
-        } else if (menu.equals("AutosAdmin")) {
+        } else if (menu != null && menu.equals("AutosAdmin")) {
             switch (accion) {
                 case "Listar":
+                    List listaAutos = autoDAO.listar();
+                    request.setAttribute("autos", listaAutos);
+                    request.getRequestDispatcher("AutosAdmin.jsp").forward(request, response);
                     break;
                 case "Agregar":
+                    int codigoCliente = Integer.parseInt(request.getParameter("txtCodigoCliente"));
+                    String placa = request.getParameter("txtPlaca");
+                    String marca = request.getParameter("txtMarca");
+                    String modelo = request.getParameter("txtModelo");
+                    String color = request.getParameter("txtColor");
+                    auto.setCodigoCliente(codigoCliente);
+                    auto.setPlaca(placa);
+                    auto.setMarca(marca);
+                    auto.setModelo(modelo);
+                    auto.setColor(color);
+                    autoDAO.agregar(auto);
+                    if (auto != null) {
+                        request.getRequestDispatcher("Controlador?menu=AutosAdmin&accion=Listar").forward(request, response);
+                        System.out.println("Auto Agregada correctamente");
+                    } else {
+                        System.out.println("No se pudo agregar el Auto");
+                    }
                     break;
                 case "Editar":
                     break;
                 case "Actualizar":
                     break;
                 case "Eliminar":
-                    break;
-                case "Buscar":
                     break;
             }
             request.getRequestDispatcher("AutosAdmin.jsp").forward(request, response);
@@ -290,7 +310,30 @@ public class Controlador extends HttpServlet {
                     break;
             }
             request.getRequestDispatcher("DetalleFacturaAdmin.jsp").forward(request, response);
+        } else if (menu != null && menu.equals("Registro")) {
+            switch (accion) {
+                case "Agregar":
+                    String nombreCliente = request.getParameter("txtNombreCliente");
+                    String telefonoCliente = request.getParameter("txtTelefonoCliente");
+                    String correoCliente = request.getParameter("txtCorreoCliente");
+                    String direccion = request.getParameter("txtDireccion");
+                    String contrasena = request.getParameter("txtContrasena");
+                    String rol = request.getParameter("txtRol");
+                    cliente.setNombreCliente(nombreCliente);
+                    cliente.setTelefonoCliente(telefonoCliente);
+                    cliente.setCorreoCliente(correoCliente);
+                    cliente.setDireccion(direccion);
+                    cliente.setContrasena(contrasena);
+                    cliente.setRol(rol);
+                    clienteDAO.agregar(cliente);
+                    response.sendRedirect("index.jsp");
+                    break;
+                default:
+                    request.getRequestDispatcher("registro.jsp").forward(request, response);
+                    break;
+            }
         }
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
