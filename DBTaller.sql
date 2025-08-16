@@ -1,4 +1,4 @@
-drop database if exists DB_Taller;
+-- drop database if exists DB_Taller;
 create database DB_Taller;
 use DB_Taller;
 
@@ -763,7 +763,7 @@ end //
 delimiter ;
 
 call sp_AgregarOrdenServicio(1, 1, 2, 1, '2025-07-01', 'Pendiente');
-call sp_AgregarOrdenServicio(2, 2, 4, 3, '2025-07-02', 'En proceso');
+call sp_AgregarOrdenServicio(2, 2, 4, 3, '2025-07-02', 'Pendiente');
 call sp_AgregarOrdenServicio(3, 3, 6, 2, '2025-07-03', 'Finalizado');
 call sp_AgregarOrdenServicio(4, 4, 8, 4, '2025-07-04', 'Pendiente');
 call sp_AgregarOrdenServicio(5, 5, 10, 5, '2025-07-05', 'En proceso');
@@ -783,18 +783,8 @@ delimiter //
 Create procedure sp_ListarOrdenServicio()
 begin
 	select
-		os.codigoOrdenServicio,
-		cl.nombreCliente,
-		au.placa,
-		em.nombreEmpleado,
-		se.nombreServicio,
-		os.fechaIngreso,
-		os.estado
-	from OrdenServicio os
-	join Cliente cl on os.codigoCliente = cl.codigoCliente
-	join Auto au on os.codigoAuto = au.codigoAuto
-	join Empleado em on os.codigoEmpleado = em.codigoEmpleado
-	join Servicio se on os.codigoServicio = se.codigoServicio;
+		codigoOrdenServicio, codigoAuto, codigoCliente, codigoEmpleado, codigoServicio, fechaIngreso, estado
+	from OrdenServicio;
 end //
 delimiter ;
 
