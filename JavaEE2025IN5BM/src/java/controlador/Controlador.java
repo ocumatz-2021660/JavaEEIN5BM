@@ -22,6 +22,10 @@ public class Controlador extends HttpServlet {
     Empleado empleado = new Empleado();
     EmpleadoDAO empleadoDAO = new EmpleadoDAO();
     int codEmpleado;
+    Servicio servicio = new Servicio();
+    ServicioDAO servicioDAO = new ServicioDAO();
+    OrdenServicio ordenServicio = new OrdenServicio();
+    OrdenServicioDAO ordenServicioDAO = new OrdenServicioDAO();
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -82,7 +86,7 @@ public class Controlador extends HttpServlet {
                     empleado.setTelefonoEmpleado(telefonoEmp);
                     empleado.setCorreoEmpleado(correoEmp);
                     empleado.setDireccion(direccionEmp);
-                    empleado.setPuesto(Empleado.Puesto.valueOf(puestoEmp)); 
+                    empleado.setPuesto(Empleado.Puesto.valueOf(puestoEmp));
                     empleadoDAO.agregar(empleado);
                     request.getRequestDispatcher("Controlador?menu=MecanicosAdmin&accion=Listar").forward(request, response);
                     break;
@@ -215,8 +219,25 @@ public class Controlador extends HttpServlet {
         } else if (menu.equals("ServiciosAdmin")) {
             switch (accion) {
                 case "Listar":
+                    List listaServicios = servicioDAO.listar();
+                    request.setAttribute("servicios", listaServicios);
+                    System.out.println("Mostrar Servicios");
                     break;
                 case "Agregar":
+                    String nombreServicio = request.getParameter("txtNombreServicio");
+                    String descripcionServicio = request.getParameter("txtDescripcionServicio");
+                    double precioServicio = Double.parseDouble(request.getParameter("txtPrecioServicio"));
+                    Servicio servicio = new Servicio();
+                    servicio.setNombreServicio(nombreServicio);
+                    servicio.setDescripcionServicio(descripcionServicio);
+                    servicio.setPrecioServicio(precioServicio);
+                    servicioDAO.agregar(servicio);
+                    if (servicio != null) {
+                        request.getRequestDispatcher("Controlador?menu=ServiciosAdmin&accion=Listar").forward(request, response);
+                        System.out.println("Servicio agregado correctamente");
+                    } else {
+                        System.out.println("No se pudo agregar el Servicio");
+                    }
                     break;
                 case "Editar":
                     break;
@@ -228,11 +249,34 @@ public class Controlador extends HttpServlet {
                     break;
             }
             request.getRequestDispatcher("ServicioAdmin.jsp").forward(request, response);
-        } else if (menu.equals("DettalleOrdenServicio")) {
+        } else if (menu.equals("DetalleServicioAdmin")) {
             switch (accion) {
                 case "Listar":
+                    List listaOrdenServicio = ordenServicioDAO.listar();
+                    request.setAttribute("ordenServicios", listaOrdenServicio);
+                    System.out.println("Mostrar Ordenes Servicios");
                     break;
                 case "Agregar":
+                    int codigoAuto = Integer.parseInt(request.getParameter("txtCodigoAuto"));
+                    int codigoCliente = Integer.parseInt(request.getParameter("txtCodigoCliente"));
+                    int codigoEmpleado = Integer.parseInt(request.getParameter("txtCodigoEmpleado"));
+                    int codigoServicio = Integer.parseInt(request.getParameter("txtCodigoServicio"));
+                    String fechaIngreso = request.getParameter("txtFechaIngreso");
+                    String estado = request.getParameter("txtEstado");
+                    OrdenServicio ordenServicio = new OrdenServicio();
+                    ordenServicio.setCodigoAuto(codigoAuto);
+                    ordenServicio.setCodigoCliente(codigoCliente);
+                    ordenServicio.setCodigoEmpleado(codigoEmpleado);
+                    ordenServicio.setCodigoServicio(codigoServicio);
+                    ordenServicio.setFechaIngreso(fechaIngreso); 
+                    ordenServicio.setEstado(OrdenServicio.EstadoOrden.valueOf(estado));
+                    ordenServicioDAO.agregar(ordenServicio);
+                    if (ordenServicio != null) {
+                        request.getRequestDispatcher("Controlador?menu=DetalleServicioAdmin&accion=Listar").forward(request, response);
+                        System.out.println("Servicio agregado correctamente");
+                    } else {
+                        System.out.println("No se pudo agregar el Servicio");
+                    }
                     break;
                 case "Editar":
                     break;
