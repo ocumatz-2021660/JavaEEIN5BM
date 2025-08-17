@@ -26,6 +26,10 @@ public class Controlador extends HttpServlet {
     ServicioDAO servicioDAO = new ServicioDAO();
     OrdenServicio ordenServicio = new OrdenServicio();
     OrdenServicioDAO ordenServicioDAO = new OrdenServicioDAO();
+    Reparacion reparacion = new Reparacion();
+    ReparacionDAO reparacionDAO = new ReparacionDAO();
+    OrdenReparacion ordenReparacion = new OrdenReparacion();
+    OrdenReparacionDAO ordenReparacionDAO = new OrdenReparacionDAO();
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -268,7 +272,7 @@ public class Controlador extends HttpServlet {
                     ordenServicio.setCodigoCliente(codigoCliente);
                     ordenServicio.setCodigoEmpleado(codigoEmpleado);
                     ordenServicio.setCodigoServicio(codigoServicio);
-                    ordenServicio.setFechaIngreso(fechaIngreso); 
+                    ordenServicio.setFechaIngreso(fechaIngreso);
                     ordenServicio.setEstado(OrdenServicio.EstadoOrden.valueOf(estado));
                     ordenServicioDAO.agregar(ordenServicio);
                     if (ordenServicio != null) {
@@ -291,8 +295,19 @@ public class Controlador extends HttpServlet {
         } else if (menu.equals("ReparacionesAdmin")) {
             switch (accion) {
                 case "Listar":
+                    List listaReparaciones = reparacionDAO.listar();
+                    request.setAttribute("reparaciones", listaReparaciones);
+                    request.getRequestDispatcher("ReparacionesAdmin.jsp").forward(request, response);
                     break;
                 case "Agregar":
+                    String nombreReparacion = request.getParameter("txtNombreReparacion");
+                    String descripcionReparacion = request.getParameter("txtDescripcionReparacion");
+                    double precioReparacion = Double.parseDouble(request.getParameter("txtPrecioReparacion"));
+                    reparacion.setNombreReparacion(nombreReparacion);
+                    reparacion.setDescripcionReparacion(descripcionReparacion);
+                    reparacion.setPrecioReparacion(precioReparacion);
+                    reparacionDAO.agregar(reparacion);
+                    request.getRequestDispatcher("Controlador?menu=ReparacionesAdmin&accion=Listar").forward(request, response);
                     break;
                 case "Editar":
                     break;
@@ -307,8 +322,25 @@ public class Controlador extends HttpServlet {
         } else if (menu.equals("OrdenReparacionAdmin")) {
             switch (accion) {
                 case "Listar":
+                    List listaOrdenes = ordenReparacionDAO.listar();
+                    request.setAttribute("ordenesReparacion", listaOrdenes);
+                    request.getRequestDispatcher("OrdenReparacionAdmin.jsp").forward(request, response);
                     break;
                 case "Agregar":
+                    int codigoAuto = Integer.parseInt(request.getParameter("txtCodigoAutoReparacion"));
+                    int codigoCliente = Integer.parseInt(request.getParameter("txtCodigoClienteReparacion"));
+                    int codigoEmpleado = Integer.parseInt(request.getParameter("txtCodigoEmpleadoReparacion"));
+                    int codigoRep = Integer.parseInt(request.getParameter("txtCodigoReparacion"));
+                    java.sql.Date fechaIngreso = java.sql.Date.valueOf(request.getParameter("txtFechaIngresoReparacion"));
+                    String estado = request.getParameter("txtEstadoReparacion");
+                    ordenReparacion.setCodigoAutoReparacion(codigoAuto);
+                    ordenReparacion.setCodigoClienteReparacion(codigoCliente);
+                    ordenReparacion.setCodigoEmpleadoReparacion(codigoEmpleado);
+                    ordenReparacion.setCodigoReparacion(codigoRep);
+                    ordenReparacion.setFechaIngresoReparacion(fechaIngreso);
+                    ordenReparacion.setEstadoReparacion(estado);
+                    ordenReparacionDAO.agregar(ordenReparacion);
+                    request.getRequestDispatcher("Controlador?menu=OrdenReparacionAdmin&accion=Listar").forward(request, response);
                     break;
                 case "Editar":
                     break;
