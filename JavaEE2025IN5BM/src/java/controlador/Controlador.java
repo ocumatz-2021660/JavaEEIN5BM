@@ -30,6 +30,8 @@ public class Controlador extends HttpServlet {
     ReparacionDAO reparacionDAO = new ReparacionDAO();
     OrdenReparacion ordenReparacion = new OrdenReparacion();
     OrdenReparacionDAO ordenReparacionDAO = new OrdenReparacionDAO();
+    Accesorio accesorio = new Accesorio();
+    AccesoriosDAO accesorioDao = new AccesoriosDAO();
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -207,8 +209,29 @@ public class Controlador extends HttpServlet {
         } else if (menu.equals("AccesoriosAdmin")) {
             switch (accion) {
                 case "Listar":
+                    List listaAccesorio = accesorioDao.listar();
+                    request.setAttribute("accesorios", listaAccesorio);
+                    System.out.println("Mostrar Accesorio");
                     break;
                 case "Agregar":
+                    
+                    String nombreAccesorio = request.getParameter("txtNombreAccesorio");
+                    String descripcionAccesorio = request.getParameter("txtDescripcionAccesorio");
+                    double precioAccesorio = Double.parseDouble(request.getParameter("txtPrecioAccesorio"));
+                    int stockAccesorio = Integer.parseInt(request.getParameter("txtStockAccesorio"));
+                    String estadoAccesorio = request.getParameter("txtEstadoAccesorio");
+                    accesorio.setNombreAccesorio(nombreAccesorio);
+                    accesorio.setDescripcionAccesorio(descripcionAccesorio);
+                    accesorio.setPrecioAccesorio(precioAccesorio);
+                    accesorio.setStockAccesorio(stockAccesorio);
+                    accesorio.setEstadoAccesorio(Accesorio.EstadoAccesorio.valueOf(estadoAccesorio));
+                    accesorioDao.agregar(accesorio);
+                    if (accesorio != null) {
+                        request.getRequestDispatcher("Controlador?menu=AccesoriosAdmin&accion=Listar").forward(request, response);
+                        System.out.println("Accesorio agregado correctamente");
+                    } else {
+                        System.out.println("No se pudo agregar el Accesorio");
+                    }
                     break;
                 case "Editar":
                     break;
