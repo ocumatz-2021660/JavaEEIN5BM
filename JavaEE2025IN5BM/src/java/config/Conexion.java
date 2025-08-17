@@ -11,8 +11,8 @@ import java.sql.SQLException;
         try {
            Class.forName("com.mysql.jdbc.Driver");
            String url = "jdbc:mysql://localhost:3306/DB_Taller?useSSL=false&allowPublicKeyRetrieval=true";
-           String user = "quintom";
-           String password = "admin";
+           String user = "root";
+           String password = "rokaxixa";
            conexion = (Connection) DriverManager.getConnection(url, user, password);
        } catch (ClassNotFoundException error) {
            StackTraceElement elemento = error.getStackTrace()[0];
