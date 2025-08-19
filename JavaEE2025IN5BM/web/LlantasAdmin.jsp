@@ -1,3 +1,5 @@
+import java.util.List;
+
 <%-- 
     Document   : LlantasAdmin
     Created on : 25/07/2025, 17:03:58
@@ -16,7 +18,15 @@
 </head>
 <body>
 
-    <header class="headerOpciones">
+    <header
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
+
+ class="headerOpciones">
         <div class="bannerHorario">
             <span><i class='bx bx-time-five'></i> Lunes a Viernes: 8:00 – 17:30 – Sábado: 8:00 – 12:00</span>
             <div class="social">
@@ -58,35 +68,36 @@
             <!-- Formulario -->
             <div class="formulario">
                 <h2>Agregar / Modificar Llanta</h2>
-                <form>
+                  <form action="Controlador?menu=LlantasAdmin" method="POST">  
                     <label for="codigoLlanta">Código Llanta</label>
-                    <input type="number" id="codigoLlanta" placeholder="Ej: 1020" />
+                     <input value="${Llanta.getCodigoLlanta}" min="0" type="number" name="txtCodigoLlanta" placeholder="Nombre de la Llanta" required/>
 
                     <label for="anchoMilimentos">Ancho (mm)</label>
-                    <input type="number" id="anchoMilimentos" placeholder="Ancho en milímetros" />
+                   <input value="${Llanta.getAnchoMilimetros}" min="0" type="number" name="txtAnchoLlanta" placeholder="Nombre de la Llanta" required/>
 
                     <label for="perfil">Perfil</label>
-                    <input type="number" id="perfil" placeholder="Perfil de la llanta" />
+                  <input value="${Llanta.getPerfil}" min="0" type="number" name="txtPerfilLlanta" placeholder="Nombre de la Llanta" required/>
 
                     <label for="tipoConstruccion">Tipo Construcción</label>
-                    <select id="tipoConstruccion">
+                    <select value="${Llanta.getTipoConstruccion}" name="txtTipoConstruccion" required>
                         <option value="Radial">Radial</option>
                         <option value="Diagonal">Diagonal</option>
                         <option value="Cinturada">Cinturada</option>
                     </select>
 
-
                     <label for="diametroRin">Diámetro del Rin</label>
-                    <input type="number" id="diametroRin" placeholder="Diámetro en pulgadas" />
+                    <input value="${Llanta.getDiametroRin}" min="0" type="number" name="txtDiametroRinLlanta" placeholder="Nombre de la Llanta" required/>
 
                     <label for="cargaMaximakg">Carga Máxima (kg)</label>
-                    <input type="number" id="cargaMaximakg" placeholder="Ej: 800" />
+                    <input value="${Llanta.getCargaMaximakg}" min="0" type="number" name="txtCargaMaximaKgLlanta" placeholder="Nombre de la Llanta" required/>
 
                     <label for="precioLlanta">Precio de la Llanta</label>
-                    <input type="number" id="precioLlanta" placeholder="Q0.00" step="0.01" />
+                    <input value="${Llanta. getPrecioLlanta}" min="0" type="number" name="txtPrecioLlanta" placeholder="Nombre de la Llanta" required/>
 
-                    <button type="submit">Guardar</button>
+                    <button name="accion" value="Agregar" class="btn btn-primary btn-block btn-agregar">Agregar</button>
+                        <button name="accion" value="Buscar" class="btn btn-primary btn-block btn-Actualizar">Actualizar</button>
                 </form>
+                  <button class="scroll-footer-btn" onclick="document.getElementById('footer').scrollIntoView({behavior: 'smooth'})">Ir al final</button>   
             </div>
 
             <!-- Tabla -->
@@ -101,19 +112,24 @@
                             <th>tipoConstruccion</th>
                             <th>diametroRin</th>
                             <th>cargaMaximakg</th>
-                            <th>precioLlanta</th>
+                            <th>Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
+                         <c:forEach var="Llanta" items="${Llanta}">
                         <tr>
-                            <td>1010</td>
-                            <td>195</td>
-                            <td>65</td>
-                            <td>Radial</td>
-                            <td>15</td>
-                            <td>750</td>
-                            <td>Q450.00</td>
-                        </tr>
+                            <td>${Llanta.getCodigoLlanta}</td>
+                            <td>${Llanta.getAnchoMilimetros}</td>
+                            <td>${Llanta.getPerfil}}</td>
+                            <td>${Llanta.getTipoConstruccion}</td>
+                            <td>${Llanta.getDiametroRin}</td>
+                            <td>${Llanta.getCargaMaximakg}</td>
+                            <td>${Llanta. getPrecioLlanta}</td>
+                   <button name="accion" value="Buscar" class="btn btn-primary btn-block btn-Actualizar">Editar</button>
+                                        <button name="accion" value="Buscar" class="btn btn-primary btn-block btn-drop">Eliminar</button>
+                                    </td>
+                                </tr>
+                            </c:forEach>
                         <!-- Más registros aquí -->
                     </tbody>
                 </table>
@@ -127,7 +143,7 @@
                 <div>
                     <label for="buscarLlanta">Buscar No. Llanta</label>
                     <input type="text" id="buscarLlanta" placeholder="Ej: 1010" />
-                    <button>Buscar</button>
+                    <button name="accion" value="Buscar" class="btn btn-primary btn-block btn-agregar">Buscar</button>
                 </div>
                 <div>
                     <label for="eliminarLlanta">Eliminar No. Llanta</label>
@@ -137,6 +153,8 @@
             </div>
         </section>
     </main>
- 
+    <footer id="footer" style="padding: 20px; text-align:center;">
+        <p>&copy; 2025 La caja de cambios - Todos los derechos reservados.</p>
+    </footer>
 </body>
 </html>

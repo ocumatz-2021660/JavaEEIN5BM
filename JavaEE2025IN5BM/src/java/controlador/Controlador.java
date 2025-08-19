@@ -32,6 +32,8 @@ public class Controlador extends HttpServlet {
     OrdenReparacionDAO ordenReparacionDAO = new OrdenReparacionDAO();
     Accesorio accesorio = new Accesorio();
     AccesoriosDAO accesorioDao = new AccesoriosDAO();
+    Llanta llanta = new Llanta();
+    LlantaDAO llantaDAO = new LlantaDAO();
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -106,21 +108,39 @@ public class Controlador extends HttpServlet {
                     break;
             }
             request.getRequestDispatcher("MecanicosAdmin.jsp").forward(request, response);
-        } else if (menu.equals("LlantasAdmin")) {
-            switch (accion) {
-                case "Listar":
-                    break;
-                case "Agregar":
-                    break;
-                case "Editar":
-                    break;
-                case "Actualizar":
-                    break;
-                case "Eliminar":
-                    break;
-                case "Buscar":
-                    break;
-            }
+               } else if (menu.equals("LlantasAdmin")) {
+    switch (accion) {
+        case "Listar":
+            List<modelo.Llanta> listarLlantas = llantaDAO.listar();
+            request.setAttribute("Llantas", listarLlantas);
+    break;
+        case "Agregar":
+            String anchoMilimentosStr = request.getParameter("txtAnchoMilimentos");
+            String perfilStr = request.getParameter("txtPerfil");
+            String tipoConstruccion = request.getParameter("txtTipoConstruccion");
+            String diametroRinStr = request.getParameter("txtDiametroRin");
+            String cargaMaximakgStr = request.getParameter("txtCargaMaximakg");
+            String precioLlantaStr = request.getParameter("txtPrecioLlanta");
+            int anchoMilimentos = Integer.parseInt(anchoMilimentosStr);
+            int perfil = Integer.parseInt(perfilStr);
+            int diametroRin = Integer.parseInt(diametroRinStr);
+            int cargaMaximakg = Integer.parseInt(cargaMaximakgStr);
+            double precioLlanta = Double.parseDouble(precioLlantaStr);
+            llanta.setPerfil(perfil);
+            llanta.setDiametroRin(diametroRin);
+            llanta.setCargaMaximakg(cargaMaximakg);
+            llanta.setPrecioLlanta(precioLlanta);
+            String agregar = "Controlador?menu=LlantasAdmin&accion=Listar";
+            break;
+        case "Editar":
+                break;
+        case "Actualizar":
+                break;
+        case "Eliminar":
+                break;
+        case "Buscar":
+                break;
+    }
             request.getRequestDispatcher("LlantasAdmin.jsp").forward(request, response);
         } else if (menu.equals("FacturaAdmin")) {
             switch (accion) {

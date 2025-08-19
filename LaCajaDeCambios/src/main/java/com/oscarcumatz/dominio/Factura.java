@@ -1,4 +1,3 @@
-
 package com.oscarcumatz.dominio;
 
 import javax.persistence.Column;
