@@ -1,5 +1,6 @@
 package modelo;
  
+ 
 public class Llanta {
  
     private int codigoLlanta;

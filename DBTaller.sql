@@ -1,4 +1,4 @@
--- drop database if exists DB_Taller;
+drop database if exists DB_Taller;
 create database DB_Taller;
 use DB_Taller;
 
