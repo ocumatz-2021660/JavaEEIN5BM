@@ -1136,7 +1136,7 @@ create procedure sp_BuscarDetalleFactura(in buscarDetalle int)
 			from detalleFactura where buscarDetalle = codigoDetalle;
     end //
 DELIMITER ;
-call sp_BuscarDetalleFactura(1);
+call sp_BuscarDetalleFactura(6);
 
 
 -- ELIMINAR DETALLEFACTURA
@@ -1144,9 +1144,27 @@ DELIMITER //
 create procedure sp_EliminarDetalleFactura(in exDetalle int )
 	begin
 		delete from detallefactura
-			where codigoFactura = exDetalle;
+			where codigoDetalle = exDetalle;
     end //
 DELIMITER ;
 -- call sp_EliminarDetalleFactura(11);
+DELIMITER //
+create procedure sp_ActualizarDetalleFactura(
+	in idDetalle int,
+    in idFactura int, 
+    in Gasto enum('Servicio','Reparacion','Llanta','Repuesto','Accesorio'), 
+    in idGasto int, 
+    in cuanto int
+    )
+		begin
+			Update DetalleFactura
+            set codigoFactura = idFactura, 
+				tipoGasto = Gasto, 
+				codigoGasto = idGasto, 
+				cantidad = cuanto
+                where codigoDetalle = idDetalle;
+        end //
+DELIMITER ;
+call sp_ActualizarDetalleFactura(1,1,'Reparacion',1,1);
 
 select * from Cliente where correoCliente = 'ana.lopez@gmail.com' and contrasena = 'maxQuinto';

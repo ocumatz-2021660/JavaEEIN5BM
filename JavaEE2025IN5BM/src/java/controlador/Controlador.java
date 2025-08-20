@@ -20,7 +20,7 @@ public class Controlador extends HttpServlet {
     AutoDAO autoDAO = new AutoDAO();
     int codFactura;
     int codCliente;
-    
+
     Empleado empleado = new Empleado();
     EmpleadoDAO empleadoDAO = new EmpleadoDAO();
     int codEmpleado;
@@ -331,65 +331,65 @@ public class Controlador extends HttpServlet {
         } else if (menu.equals("AccesoriosAdmin")) {
             switch (accion) {
                 case "Listar":
-            List<Accesorio> listaAccesorios = accesorioDao.listar();
-            request.setAttribute("accesorios", listaAccesorios);
-            request.getRequestDispatcher("AccesoriosAdmin.jsp").forward(request, response);
-            break;
- 
-        case "Agregar":
-            String nombreAccesorio = request.getParameter("txtNombreAccesorio");
-            String descripcionAccesorio = request.getParameter("txtDescripcionAccesorio");
-            double precioAccesorio = Double.parseDouble(request.getParameter("txtPrecioAccesorio"));
-            int stockAccesorio = Integer.parseInt(request.getParameter("txtStockAccesorio"));
-            String estadoAccesorio = request.getParameter("txtEstadoAccesorio");
- 
-            accesorio.setNombreAccesorio(nombreAccesorio);
-            accesorio.setDescripcionAccesorio(descripcionAccesorio);
-            accesorio.setPrecioAccesorio(precioAccesorio);
-            accesorio.setStockAccesorio(stockAccesorio);
-            accesorio.setEstadoAccesorio(Accesorio.EstadoAccesorio.valueOf(estadoAccesorio));
- 
-            accesorioDao.agregar(accesorio);
-            request.getRequestDispatcher("Controlador?menu=AccesoriosAdmin&accion=Listar").forward(request, response);
-            break;
- 
-        case "Editar":
-            int codigoAcc = Integer.parseInt(request.getParameter("codigoAccesorio"));
-            Accesorio acc = accesorioDao.listarCodigoAccesorio(codigoAcc);
-            request.setAttribute("accesorio", acc); // accesorio a editar
-            List<Accesorio> listaEditar = accesorioDao.listar(); // mostrar tabla
-            request.setAttribute("accesorios", listaEditar);
-            request.getRequestDispatcher("AccesoriosAdmin.jsp").forward(request, response);
-            break;
- 
-        case "Actualizar":
-            int codigoActualizar = Integer.parseInt(request.getParameter("txtCodigoAccesorio"));
-            String nombreActualizar = request.getParameter("txtNombreAccesorio");
-            String descripcionActualizar = request.getParameter("txtDescripcionAccesorio");
-            double precioActualizar = Double.parseDouble(request.getParameter("txtPrecioAccesorio"));
-            int stockActualizar = Integer.parseInt(request.getParameter("txtStockAccesorio"));
-            String estadoActualizar = request.getParameter("txtEstadoAccesorio");
- 
-            accesorio.setCodigoAccesorio(codigoActualizar);
-            accesorio.setNombreAccesorio(nombreActualizar);
-            accesorio.setDescripcionAccesorio(descripcionActualizar);
-            accesorio.setPrecioAccesorio(precioActualizar);
-            accesorio.setStockAccesorio(stockActualizar);
-            accesorio.setEstadoAccesorio(Accesorio.EstadoAccesorio.valueOf(estadoActualizar));
- 
-            accesorioDao.actualizar(accesorio);
-            request.getRequestDispatcher("Controlador?menu=AccesoriosAdmin&accion=Listar").forward(request, response);
-            break;
- 
-        case "Eliminar":
-            int codigoEliminar = Integer.parseInt(request.getParameter("codigoAccesorio"));
-            accesorioDao.eliminar(codigoEliminar);
-            request.getRequestDispatcher("Controlador?menu=AccesoriosAdmin&accion=Listar").forward(request, response);
-            break;
- 
-        case "Buscar":
-            // Aquí puedes implementar la lógica de búsqueda si la necesitas
-            break;
+                    List<Accesorio> listaAccesorios = accesorioDao.listar();
+                    request.setAttribute("accesorios", listaAccesorios);
+                    request.getRequestDispatcher("AccesoriosAdmin.jsp").forward(request, response);
+                    break;
+
+                case "Agregar":
+                    String nombreAccesorio = request.getParameter("txtNombreAccesorio");
+                    String descripcionAccesorio = request.getParameter("txtDescripcionAccesorio");
+                    double precioAccesorio = Double.parseDouble(request.getParameter("txtPrecioAccesorio"));
+                    int stockAccesorio = Integer.parseInt(request.getParameter("txtStockAccesorio"));
+                    String estadoAccesorio = request.getParameter("txtEstadoAccesorio");
+
+                    accesorio.setNombreAccesorio(nombreAccesorio);
+                    accesorio.setDescripcionAccesorio(descripcionAccesorio);
+                    accesorio.setPrecioAccesorio(precioAccesorio);
+                    accesorio.setStockAccesorio(stockAccesorio);
+                    accesorio.setEstadoAccesorio(Accesorio.EstadoAccesorio.valueOf(estadoAccesorio));
+
+                    accesorioDao.agregar(accesorio);
+                    request.getRequestDispatcher("Controlador?menu=AccesoriosAdmin&accion=Listar").forward(request, response);
+                    break;
+
+                case "Editar":
+                    int codigoAcc = Integer.parseInt(request.getParameter("codigoAccesorio"));
+                    Accesorio acc = accesorioDao.listarCodigoAccesorio(codigoAcc);
+                    request.setAttribute("accesorio", acc); // accesorio a editar
+                    List<Accesorio> listaEditar = accesorioDao.listar(); // mostrar tabla
+                    request.setAttribute("accesorios", listaEditar);
+                    request.getRequestDispatcher("AccesoriosAdmin.jsp").forward(request, response);
+                    break;
+
+                case "Actualizar":
+                    int codigoActualizar = Integer.parseInt(request.getParameter("txtCodigoAccesorio"));
+                    String nombreActualizar = request.getParameter("txtNombreAccesorio");
+                    String descripcionActualizar = request.getParameter("txtDescripcionAccesorio");
+                    double precioActualizar = Double.parseDouble(request.getParameter("txtPrecioAccesorio"));
+                    int stockActualizar = Integer.parseInt(request.getParameter("txtStockAccesorio"));
+                    String estadoActualizar = request.getParameter("txtEstadoAccesorio");
+
+                    accesorio.setCodigoAccesorio(codigoActualizar);
+                    accesorio.setNombreAccesorio(nombreActualizar);
+                    accesorio.setDescripcionAccesorio(descripcionActualizar);
+                    accesorio.setPrecioAccesorio(precioActualizar);
+                    accesorio.setStockAccesorio(stockActualizar);
+                    accesorio.setEstadoAccesorio(Accesorio.EstadoAccesorio.valueOf(estadoActualizar));
+
+                    accesorioDao.actualizar(accesorio);
+                    request.getRequestDispatcher("Controlador?menu=AccesoriosAdmin&accion=Listar").forward(request, response);
+                    break;
+
+                case "Eliminar":
+                    int codigoEliminar = Integer.parseInt(request.getParameter("codigoAccesorio"));
+                    accesorioDao.eliminar(codigoEliminar);
+                    request.getRequestDispatcher("Controlador?menu=AccesoriosAdmin&accion=Listar").forward(request, response);
+                    break;
+
+                case "Buscar":
+                    // Aquí puedes implementar la lógica de búsqueda si la necesitas
+                    break;
             }
             request.getRequestDispatcher("AccesoriosAdmin.jsp").forward(request, response);
         } else if (menu.equals("ServiciosAdmin")) {
@@ -606,12 +606,29 @@ public class Controlador extends HttpServlet {
                     }
                     break;
                 case "Editar":
+                    int codDetalleFac = Integer.parseInt(request.getParameter("id"));
+                    DetalleFactura df = detalleFacturaDao.listarCodigoDetalle(codDetalleFac);
+                    request.setAttribute("detalleFactura", df);
+                    request.getRequestDispatcher("Controlador?menu=DetalleFacturaAdmin&accion=Listar").forward(request, response);
                     break;
                 case "Actualizar":
+                    int codigoDetalle = Integer.parseInt(request.getParameter("txtCodigoDetalle"));
+                    int idFacuta = Integer.parseInt(request.getParameter("txtCodigoFacturaDetalle"));
+                    String Gasto = request.getParameter("txtTipoGasto");
+                    int idGasto = Integer.parseInt(request.getParameter("txtCodigoGasto"));
+                    int cuanto = Integer.parseInt(request.getParameter("txtCantidad"));
+                    detalleFactura.setCodigoDetalle(codigoDetalle);
+                    detalleFactura.setCodigoFactura(idFacuta);
+                    detalleFactura.setTipoGasto(DetalleFactura.TipoGasto.valueOf(Gasto));
+                    detalleFactura.setCodigoGasto(idGasto);
+                    detalleFactura.setCantidad(cuanto);
+                    detalleFacturaDao.actualizar(detalleFactura);
+                    request.getRequestDispatcher("Controlador?menu=DetalleFacturaAdmin&accion=Listar").forward(request, response);
                     break;
                 case "Eliminar":
-                    break;
-                case "Buscar":
+                    int codDetalleFactura = Integer.parseInt(request.getParameter("id"));
+                    detalleFacturaDao.eliminar(codDetalleFactura);
+                    request.getRequestDispatcher("Controlador?menu=DetalleFacturaAdmin&accion=Listar").forward(request, response);
                     break;
             }
             request.getRequestDispatcher("DetalleFacturaAdmin.jsp").forward(request, response);

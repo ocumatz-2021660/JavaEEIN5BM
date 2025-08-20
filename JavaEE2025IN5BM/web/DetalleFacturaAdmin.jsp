@@ -58,7 +58,8 @@
             <div class="formulario">
                 <h2>Agregar / Modificar Detalles de facturas</h2>
                 <form action="Controlador?menu=DetalleFacturaAdmin" method="POST"> 
-
+                    <input type="hidden" name="txtCodigoDetalle" value="${detalleFactura.getCodigoDetalle()}" />
+                        
                     <label for="codigoFacturaDetalle">No.Factura</label>
                     <input value="${detalleFactura.getCodigoFactura()}"min="0" type="number" name="txtCodigoFacturaDetalle" placeholder="Ej: 1010" required>
 
@@ -77,9 +78,10 @@
                     <label for="cantidad">cantidad</label>
                     <input value="${detalleFactura.getCantidad()}" min="0" type="number" name="txtCantidad" placeholder="0" required>                                    
                     <button name="accion" value="Agregar" class="btn btn-primary btn-block btn-agregar">Agregar</button>
-                    <button name="accion" value="Buscar" class="btn btn-primary btn-block btn-Actualizar">Actualizar</button>
+                    <button name="accion" value="Actualizar" class="btn btn-primary btn-block btn-Actualizar">Actualizar</button>
+
                 </form>
-                     <button class="scroll-footer-btn" onclick="document.getElementById('footer').scrollIntoView({behavior: 'smooth'})">Ir al final</button>
+                <button class="scroll-footer-btn" onclick="document.getElementById('footer').scrollIntoView({behavior: 'smooth'})">Ir al final</button>
             </div>
             <div class="tabla-registros">
                 <h2>Detalles facturas registradas</h2>
@@ -103,8 +105,8 @@
                                 <td>${detalleFactura.getCodigoGasto()}</td>
                                 <td>${detalleFactura.getCantidad()}</td>
                                 <td>
-                                    <button name="accion" value="Buscar" class="btn btn-primary btn-block btn-Actualizar">Editar</button>
-                                    <button name="accion" value="Buscar" class="btn btn-primary btn-block btn-drop">Eliminar</button>
+                                    <a name="accion" value="Buscar" class="btn btn-primary btn-block btn-Actualizar" href="Controlador?menu=DetalleFacturaAdmin&accion=Editar&id=${detalleFactura.getCodigoDetalle()}" >Editar</a>
+                                    <a name="accion" value="Buscar" class="btn btn-primary btn-block btn-drop" href="Controlador?menu=DetalleFacturaAdmin&accion=Eliminar&id=${detalleFactura.getCodigoDetalle()}">Elimina</a>                                    
                                 </td>
                             </tr>
                         </c:forEach>
@@ -112,21 +114,6 @@
                 </table>
             </div>
 
-        </section>
-        <section class="acciones">
-            <h2>Buscar y eliminar Detalles de facturas</h2>
-            <div class="acciones-inputs">
-                <div>
-                    <label for="buscarfactura">Buscar No. Detalle factura</label>
-                    <input type="text" id=" buscarFactura" placeholder="Ej:1010">
-                    <button>Buscar</button>
-                </div>
-                <div>
-                    <label for="eliminarFactura">Eliminar No. Detalle Factura</label>
-                    <input type="text" id="eliminarFactura" placeholder="Ej: 1010">
-                    <button>Eliminar</button>
-                </div>
-            </div>
         </section>
     </main>
     <body>
