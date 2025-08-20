@@ -74,17 +74,19 @@ public class Controlador extends HttpServlet {
                     break;
                 case "Editar":
                     codCliente = Integer.parseInt(request.getParameter("codigoCliente"));
-                    Cliente e = clienteDAO.lisarCodigoCliente(codCliente);
+                    Cliente e = clienteDAO.listarCodigoCliente(codCliente);
                     request.setAttribute("cliente", e);
                     request.getRequestDispatcher("Controlador?menu=ClientesAdmin&accion=Listar").forward(request, response);
                     break;
                 case "Actualizar":
+                    int id = Integer.parseInt(request.getParameter("txtCodigoCliente"));
                     String nomCliente = request.getParameter("txtNombreCliente");
                     String telCliente = request.getParameter("txtTelefonoCliente");
                     String emailCliente = request.getParameter("txtCorreoCliente");
                     String ubicacion = request.getParameter("txtDireccion");
                     String pass = request.getParameter("txtContrasena");
                     String puesto = request.getParameter("txtRol");
+                    cliente.setCodigoCliente(id);
                     cliente.setNombreCliente(nomCliente);
                     cliente.setTelefonoCliente(telCliente);
                     cliente.setCorreoCliente(emailCliente);
@@ -129,7 +131,7 @@ public class Controlador extends HttpServlet {
                     int codigoEmp = Integer.parseInt(request.getParameter("codigoEmpleado"));
                     Empleado emp = empleadoDAO.listarCodigoEmpleado(codigoEmp);
                     request.setAttribute("empleado", emp);
-                    List<Empleado> listaEmpleadosEditar = empleadoDAO.listar(); 
+                    List<Empleado> listaEmpleadosEditar = empleadoDAO.listar();
                     request.setAttribute("empleados", listaEmpleadosEditar);
                     request.getRequestDispatcher("MecanicosAdmin.jsp").forward(request, response);
                     break;
@@ -278,10 +280,34 @@ public class Controlador extends HttpServlet {
                     }
                     break;
                 case "Editar":
+                    int idEditar = Integer.parseInt(request.getParameter("codigoAuto"));
+                    Auto autoSeleccionado = autoDAO.listarCodigoAuto(idEditar);
+                    request.setAttribute("auto", autoSeleccionado);
+                    List listaAutosEditar = autoDAO.listar();
+                    request.setAttribute("autos", listaAutosEditar);
+                    request.getRequestDispatcher("AutosAdmin.jsp").forward(request, response);
                     break;
                 case "Actualizar":
+                    int idActualizar = Integer.parseInt(request.getParameter("txtCodigoAuto"));
+                    int codigoClienteAct = Integer.parseInt(request.getParameter("txtCodigoCliente"));
+                    String placaAct = request.getParameter("txtPlaca");
+                    String marcaAct = request.getParameter("txtMarca");
+                    String modeloAct = request.getParameter("txtModelo");
+                    String colorAct = request.getParameter("txtColor");
+                    Auto autoActualizado = new Auto();
+                    autoActualizado.setCodigoAuto(idActualizar);
+                    autoActualizado.setCodigoCliente(codigoClienteAct);
+                    autoActualizado.setPlaca(placaAct);
+                    autoActualizado.setMarca(marcaAct);
+                    autoActualizado.setModelo(modeloAct);
+                    autoActualizado.setColor(colorAct);
+                    autoDAO.actualizar(autoActualizado);
+                    request.getRequestDispatcher("Controlador?menu=AutosAdmin&accion=Listar").forward(request, response);
                     break;
                 case "Eliminar":
+                    int idEliminar = Integer.parseInt(request.getParameter("codigoAuto"));
+                    autoDAO.eliminar(idEliminar);
+                    request.getRequestDispatcher("Controlador?menu=AutosAdmin&accion=Listar").forward(request, response);
                     break;
             }
             request.getRequestDispatcher("AutosAdmin.jsp").forward(request, response);

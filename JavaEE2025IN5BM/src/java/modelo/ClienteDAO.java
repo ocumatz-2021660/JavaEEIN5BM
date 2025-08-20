@@ -81,38 +81,43 @@ public class ClienteDAO {
         return resp;
     }
 
-    public Cliente lisarCodigoCliente(int id) {
-        Cliente clie = new Cliente();
-        String sql = "call sp_BuscarCliente(" + id + ");";
-        try {
-            con = cn.Conexion();
-            ps = con.prepareStatement(sql);
-            rs = ps.executeQuery();
-            while (rs.next()) {
-                clie.setNombreCliente(rs.getString(2));
-                clie.setTelefonoCliente(rs.getString(3));
-                clie.setCorreoCliente(rs.getString(4));
-                clie.setDireccion(rs.getString(5));
-                clie.setContrasena(rs.getString(6));
-                clie.setRol(rs.getString(7));
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+    public Cliente listarCodigoCliente(int id) {
+    Cliente clie = null;
+    String sql = "call sp_BuscarCliente(?);";
+    try {
+        con = cn.Conexion();
+        ps = con.prepareStatement(sql);
+        ps.setInt(1, id);
+        rs = ps.executeQuery();
+        if (rs.next()) {
+            clie = new Cliente();
+            clie.setCodigoCliente(rs.getInt(1));
+            clie.setNombreCliente(rs.getString(2));
+            clie.setTelefonoCliente(rs.getString(3));
+            clie.setCorreoCliente(rs.getString(4));
+            clie.setDireccion(rs.getString(5));
+            clie.setContrasena(rs.getString(6));
+            clie.setRol(rs.getString(7));
         }
-        return clie;
+    } catch (Exception e) {
+        e.printStackTrace();
     }
+    return clie;
+}
 
     public int actualizar(Cliente cli) {
         String sql = "call sp_ModificarCliente(?,?,?,?,?,?,?);";
+        resp = 0;
         try {
             con = cn.Conexion();
             ps = con.prepareStatement(sql);
-            ps.setString(1, cli.getNombreCliente());
-            ps.setString(2, cli.getTelefonoCliente());
-            ps.setString(3, cli.getCorreoCliente());
-            ps.setString(4, cli.getDireccion());
-            ps.setString(5, cli.getContrasena());
-            ps.setString(6, cli.getRol());
+            ps.setInt(1, cli.getCodigoCliente());
+            ps.setString(2, cli.getNombreCliente());
+            ps.setString(3, cli.getTelefonoCliente());
+            ps.setString(4, cli.getCorreoCliente());
+            ps.setString(5, cli.getDireccion());
+            ps.setString(6, cli.getContrasena());
+            ps.setString(7, cli.getRol());
             ps.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();

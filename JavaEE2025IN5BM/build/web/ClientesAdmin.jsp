@@ -1,9 +1,3 @@
-<%-- 
-    Document   : ClientesAdmin
-    Created on : 28/07/2025, 18:04:59
-    Author     : Clara Lopez
---%>
-
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -40,13 +34,13 @@
                 </div>
                 <div class="infoItem">
                     <h4>VISÍTANOS</h4>
-                    <span>19 Calle 2‑47 Zona 3 Ciudad Guatemala</span>
+                    <span>19 Calle 2‑47 Zona 3 Ciudad Guatemala</span>
                 </div>
             </div>
         </div>
         <nav class="bannerOpciones">
             <ul class="menu">
-                <li><a href="MenuInicioAdmin.jsp">Menu Administrador</a></li>       
+                <li><a href="MenuInicioAdmin.jsp">Menu Administrador</a></li>      
             </ul>
         </nav>
     </header>
@@ -56,6 +50,9 @@
                 <div class="formulario">
                     <h2>Agregar / Modificar Cliente</h2>
                     <form action="Controlador?menu=ClientesAdmin" method="POST">
+                        
+                        <input type="hidden" value="${cliente.getCodigoCliente()}" name="txtCodigoCliente" />
+
                         <label for="nombreCliente">Nombre</label>
                         <input type="text" value="${cliente.getNombreCliente()}" name="txtNombreCliente" placeholder="Nombre completo" required/>
 
@@ -79,7 +76,6 @@
                     <button class="scroll-footer-btn" onclick="document.getElementById('footer').scrollIntoView({behavior: 'smooth'})">Ir al final</button>
                 </div>
 
-                <!-- Tabla -->
                 <div class="tabla-registros">
                     <h2>Clientes Registrados</h2>
                     <table>
@@ -107,27 +103,12 @@
                                     <td>${cliente.getRol()}</td>
                                     <td id="table-button">   
                                         <a name="accion" value="Buscar" class="btn btn-primary btn-block btn-Actualizar" href="Controlador?menu=ClientesAdmin&accion=Editar&codigoCliente=${cliente.getCodigoCliente()}" >Editar</a>
-                                        <a name="accion" value="Buscar" class="btn btn-primary btn-block btn-drop" href="Controlador?menu=ClientesAdmin&accion=Eliminar&codigoCliente=${cliente.getCodigoCliente()}">Elimina</a>
+                                        <a name="accion" value="Buscar" class="btn btn-primary btn-block btn-drop" href="Controlador?menu=ClientesAdmin&accion=Eliminar&codigoCliente=${cliente.getCodigoCliente()}">Eliminar</a>
                                     </td>
                                 </tr>
                             </c:forEach>
                         </tbody>
                     </table>
-                </div>
-            </section>
-            <section class="acciones">
-                <h2>Buscar y Eliminar Cliente</h2>
-                <div class="acciones-inputs">
-                    <div>
-                        <label for="buscar-cliente">Buscar Código Cliente</label>
-                        <input type="text" id="txtBuscar-cliente" placeholder="Ej: 101" />
-                        <button name="accion" value="Buscar" class="btn btn-primary btn-block btn-agregar">Buscar</button>
-                    </div>
-                    <div>
-                        <label for="eliminar-cliente">Eliminar Código Cliente</label>
-                        <input type="text" id="txtEliminar-cliente" placeholder="Ej: 101" />
-                        <button name="accion" value="Buscar" class="btn btn-primary btn-block btn-drop">Eliminar</button>
-                    </div>
                 </div>
             </section>
         </main>

@@ -424,7 +424,7 @@ delimiter ;
 delimiter //
 create procedure sp_BuscarAuto(in cAuto int)
 begin	
-	select codigoCliente, placa, marca, modelo, color from Auto
+	select codigoAuto, codigoCliente, placa, marca, modelo, color from Auto
     where codigoAuto = cAuto;
 end //
 delimiter ;
@@ -890,7 +890,7 @@ DELIMITER //
 CREATE PROCEDURE sp_EliminarReparacion(IN codigoReparacion INT)
 BEGIN
     SET foreign_key_checks = 0;
-    DELETE FROM Reparacion WHERE codigoReparacion = p_codigoReparacion;
+    DELETE FROM Reparacion WHERE codigoReparacion = codigoReparacion;
     SET foreign_key_checks = 1;
 END//
 DELIMITER ;

@@ -1,9 +1,3 @@
-<%-- 
-    Document   : AutosAdmin
-    Created on : 28/07/2025, 18:04:12
-    Author     : Clara Lopez
---%>
-
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -42,13 +36,13 @@
                     </div>
                     <div class="infoItem">
                         <h4>VISÍTANOS</h4>
-                        <span>19 Calle 2‑47 Zona 3 Ciudad Guatemala</span>
+                        <span>19 Calle 2‑47 Zona 3 Ciudad Guatemala</span>
                     </div>
                 </div>
             </div>
             <nav class="bannerOpciones">
                 <ul class="menu">
-                    <li><a href="MenuInicioAdmin.jsp">Inicio</a></li>           
+                    <li><a href="MenuInicioAdmin.jsp">Inicio</a></li>       
                 </ul>
             </nav>
         </header>
@@ -58,6 +52,8 @@
                 <div class="formulario">
                     <h2>Agregar / Modificar Auto</h2>
                     <form action="Controlador?menu=AutosAdmin" method="POST">
+                        
+                        <input type="hidden" value="${auto.getCodigoAuto()}" name="txtCodigoAuto" />
 
                         <label for="codigoCliente">Código Cliente</label>
                         <input type="text" value="${auto.getCodigoCliente()}" min="0" name="txtCodigoCliente" placeholder="Ej: 1001" required/>
@@ -75,7 +71,7 @@
                         <input type="text" value="${auto.getColor()}" name="txtColor" placeholder="Rojo" required/>
 
                         <button name="accion" value="Agregar" class="btn btn-primary btn-block btn-agregar">Agregar</button>
-                        <button name="accion" value="Buscar" class="btn btn-primary btn-block btn-Actualizar">Actualizar</button>
+                        <button name="accion" value="Actualizar" class="btn btn-primary btn-block btn-Actualizar">Actualizar</button>
                     </form>
                     <button class="scroll-footer-btn" onclick="document.getElementById('footer').scrollIntoView({behavior: 'smooth'})">Ir al final</button>
                 </div>
@@ -103,8 +99,8 @@
                                     <td>${auto.getModelo()}</td>
                                     <td>${auto.getColor()}</td>
                                     <td>
-                                        <button name="accion" value="Buscar" class="btn btn-primary btn-block btn-Actualizar">Editar</button>
-                                        <button name="accion" value="Buscar" class="btn btn-primary btn-block btn-drop">Eliminar</button>
+                                        <a name="accion" value="Buscar" class="btn btn-primary btn-block btn-Actualizar" href="Controlador?menu=AutosAdmin&accion=Editar&codigoAuto=${auto.getCodigoAuto()}" >Editar</a>
+                                        <a name="accion" value="Buscar" class="btn btn-primary btn-block btn-drop" href="Controlador?menu=AutosAdmin&accion=Eliminar&codigoAuto=${auto.getCodigoAuto()}">Eliminar</a>
                                     </td>
                                 </tr>
                             </c:forEach>
@@ -112,22 +108,7 @@
                     </table>
                 </div>
             </section>
-            <section class="acciones">
-                <h2>Buscar y Eliminar Auto</h2>
-                <div class="acciones-inputs">
-                    <div>
-                        <label for="buscar-auto">Buscar No. Auto</label>
-                        <input type="text" id="buscar-auto" placeholder="Ej: 1010" />
-                        <button name="accion" value="Buscar" class="btn btn-primary btn-block btn-agregar">Buscar</button>
-                    </div>
-                    <div>
-                        <label for="eliminar-auto">Eliminar No. Auto</label>
-                        <input type="text" id="eliminar-auto" placeholder="Ej: 1010" />
-                        <button name="accion" value="Buscar" class="btn btn-primary btn-block btn-drop">Eliminar</button>
-                    </div>
-                </div>
-            </section>
-        </main>
+                                                      </main>
         <footer id="footer" style="padding: 20px; text-align:center;">
             <p>&copy; 2025 La caja de cambios - Todos los derechos reservados.</p>
         </footer>
