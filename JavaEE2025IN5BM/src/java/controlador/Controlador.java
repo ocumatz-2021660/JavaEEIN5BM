@@ -18,6 +18,7 @@ public class Controlador extends HttpServlet {
     DetalleFacturaDAO detalleFacturaDao = new DetalleFacturaDAO();
     Auto auto = new Auto();
     AutoDAO autoDAO = new AutoDAO();
+    int codFactura;
     int codCliente;
     Empleado empleado = new Empleado();
     EmpleadoDAO empleadoDAO = new EmpleadoDAO();
@@ -69,12 +70,31 @@ public class Controlador extends HttpServlet {
                     request.getRequestDispatcher("Controlador?menu=ClientesAdmin&accion=Listar").forward(request, response);
                     break;
                 case "Editar":
+                    codCliente = Integer.parseInt(request.getParameter("codigoCliente"));
+                    Cliente e = clienteDAO.lisarCodigoCliente(codCliente);
+                    request.setAttribute("cliente", e);
+                    request.getRequestDispatcher("Controlador?menu=ClientesAdmin&accion=Listar").forward(request, response);
                     break;
                 case "Actualizar":
+                    String nomCliente = request.getParameter("txtNombreCliente");
+                    String telCliente = request.getParameter("txtTelefonoCliente");
+                    String emailCliente = request.getParameter("txtCorreoCliente");
+                    String ubicacion = request.getParameter("txtDireccion");
+                    String pass = request.getParameter("txtContrasena");
+                    String puesto = request.getParameter("txtRol");
+                    cliente.setNombreCliente(nomCliente);
+                    cliente.setTelefonoCliente(telCliente);
+                    cliente.setCorreoCliente(emailCliente);
+                    cliente.setDireccion(ubicacion);
+                    cliente.setContrasena(pass);
+                    cliente.setRol(puesto);
+                    clienteDAO.actualizar(cliente);
+                    request.getRequestDispatcher("Controlador?menu=ClientesAdmin&accion=Listar").forward(request, response);
                     break;
                 case "Eliminar":
-                    break;
-                case "Buscar":
+                    codCliente = Integer.parseInt(request.getParameter("codigoCliente"));
+                    clienteDAO.eliminar(codCliente);
+                    request.getRequestDispatcher("Controlador?menu=ClientesAdmin&accion=Listar").forward(request, response);
                     break;
             }
             request.getRequestDispatcher("ClientesAdmin.jsp").forward(request, response);
@@ -108,39 +128,39 @@ public class Controlador extends HttpServlet {
                     break;
             }
             request.getRequestDispatcher("MecanicosAdmin.jsp").forward(request, response);
-               } else if (menu.equals("LlantasAdmin")) {
-    switch (accion) {
-        case "Listar":
-            List<modelo.Llanta> listarLlantas = llantaDAO.listar();
-            request.setAttribute("Llantas", listarLlantas);
-    break;
-        case "Agregar":
-            String anchoMilimentosStr = request.getParameter("txtAnchoMilimentos");
-            String perfilStr = request.getParameter("txtPerfil");
-            String tipoConstruccion = request.getParameter("txtTipoConstruccion");
-            String diametroRinStr = request.getParameter("txtDiametroRin");
-            String cargaMaximakgStr = request.getParameter("txtCargaMaximakg");
-            String precioLlantaStr = request.getParameter("txtPrecioLlanta");
-            int anchoMilimentos = Integer.parseInt(anchoMilimentosStr);
-            int perfil = Integer.parseInt(perfilStr);
-            int diametroRin = Integer.parseInt(diametroRinStr);
-            int cargaMaximakg = Integer.parseInt(cargaMaximakgStr);
-            double precioLlanta = Double.parseDouble(precioLlantaStr);
-            llanta.setPerfil(perfil);
-            llanta.setDiametroRin(diametroRin);
-            llanta.setCargaMaximakg(cargaMaximakg);
-            llanta.setPrecioLlanta(precioLlanta);
-            String agregar = "Controlador?menu=LlantasAdmin&accion=Listar";
-            break;
-        case "Editar":
-                break;
-        case "Actualizar":
-                break;
-        case "Eliminar":
-                break;
-        case "Buscar":
-                break;
-    }
+        } else if (menu.equals("LlantasAdmin")) {
+            switch (accion) {
+                case "Listar":
+                    List<modelo.Llanta> listarLlantas = llantaDAO.listar();
+                    request.setAttribute("Llantas", listarLlantas);
+                    break;
+                case "Agregar":
+                    String anchoMilimentosStr = request.getParameter("txtAnchoMilimentos");
+                    String perfilStr = request.getParameter("txtPerfil");
+                    String tipoConstruccion = request.getParameter("txtTipoConstruccion");
+                    String diametroRinStr = request.getParameter("txtDiametroRin");
+                    String cargaMaximakgStr = request.getParameter("txtCargaMaximakg");
+                    String precioLlantaStr = request.getParameter("txtPrecioLlanta");
+                    int anchoMilimentos = Integer.parseInt(anchoMilimentosStr);
+                    int perfil = Integer.parseInt(perfilStr);
+                    int diametroRin = Integer.parseInt(diametroRinStr);
+                    int cargaMaximakg = Integer.parseInt(cargaMaximakgStr);
+                    double precioLlanta = Double.parseDouble(precioLlantaStr);
+                    llanta.setPerfil(perfil);
+                    llanta.setDiametroRin(diametroRin);
+                    llanta.setCargaMaximakg(cargaMaximakg);
+                    llanta.setPrecioLlanta(precioLlanta);
+                    String agregar = "Controlador?menu=LlantasAdmin&accion=Listar";
+                    break;
+                case "Editar":
+                    break;
+                case "Actualizar":
+                    break;
+                case "Eliminar":
+                    break;
+                case "Buscar":
+                    break;
+            }
             request.getRequestDispatcher("LlantasAdmin.jsp").forward(request, response);
         } else if (menu.equals("FacturaAdmin")) {
             switch (accion) {
@@ -169,10 +189,32 @@ public class Controlador extends HttpServlet {
                     }
                     break;
                 case "Editar":
+                     codFactura = Integer.parseInt(request.getParameter("codigoFactura"));
+                    Factura fa = facturaDAO.listarCodigoFactura(codFactura);
+                    request.setAttribute("factura", fa);
+                    request.getRequestDispatcher("Controlador?menu=FacturaAdmin&accion=Listar").forward(request, response);                 
                     break;
                 case "Actualizar":
+                    int codigoFactura = Integer.parseInt(request.getParameter("txtCodigoFactura"));
+                    int idCliente = Integer.parseInt(request.getParameter("txtCodigoClienteFactura"));
+                    int idEmpleado = Integer.parseInt(request.getParameter("txtCodigoEmpleadoFactura"));
+                    int idAuto = Integer.parseInt(request.getParameter("txtCodigoAutoFactura"));
+                    String diaEmision = request.getParameter("txtFechaEmision");
+                    String Pago = request.getParameter("txtMetodoPago");
+                    
+                    factura.setCodigoFactura(codigoFactura);
+                    factura.setCodigoClienteFactura(idCliente);
+                    factura.setCodigoEmpleadoFactura(idEmpleado);
+                    factura.setCodigoAutoFactura(idAuto);
+                    factura.setFechaEmision(diaEmision);
+                    factura.setMetodoPago(Factura.MetodoPago.valueOf(Pago));
+                    facturaDAO.actualizar(factura);
+                    request.getRequestDispatcher("Controlador?menu=FacturaAdmin&accion=Listar").forward(request, response);
                     break;
                 case "Eliminar":
+                    codFactura = Integer.parseInt(request.getParameter("codigoFactura"));
+                    facturaDAO.eliminar(codFactura);
+                    request.getRequestDispatcher("Controlador?menu=FacturaAdmin&accion=Listar").forward(request, response);
                     break;
             }
             request.getRequestDispatcher("FacturaAdmin.jsp").forward(request, response);
@@ -234,7 +276,7 @@ public class Controlador extends HttpServlet {
                     System.out.println("Mostrar Accesorio");
                     break;
                 case "Agregar":
-                    
+
                     String nombreAccesorio = request.getParameter("txtNombreAccesorio");
                     String descripcionAccesorio = request.getParameter("txtDescripcionAccesorio");
                     double precioAccesorio = Double.parseDouble(request.getParameter("txtPrecioAccesorio"));
@@ -386,7 +428,7 @@ public class Controlador extends HttpServlet {
                     request.getRequestDispatcher("Controlador?menu=OrdenReparacionAdmin&accion=Listar").forward(request, response);
                     break;
                 case "Editar":
-                    break;
+                      break;
                 case "Actualizar":
                     break;
                 case "Eliminar":

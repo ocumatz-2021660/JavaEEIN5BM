@@ -57,5 +57,55 @@ public class FacturaDAO {
         }
         return resp;
     }
-    
+    public Factura listarCodigoFactura(int id){        
+        String sql = "call sp_BuscarFactura(?);";
+        Factura fact = null;
+        try{
+            con = cn.Conexion();
+            ps = con.prepareStatement(sql);
+            ps.setInt(1, id);
+            rs = ps.executeQuery();
+            
+            if (rs.next()) {               
+                fact = new Factura();
+                fact.setCodigoFactura(rs.getInt(1));
+                fact.setCodigoClienteFactura(rs.getInt(2));
+                fact.setCodigoEmpleadoFactura(rs.getInt(3));
+                fact.setCodigoAutoFactura(rs.getInt(4));
+                fact.setFechaEmision(rs.getString(5));                
+                fact.setMetodoPago(Factura.MetodoPago.valueOf(rs.getString(6)));
+            }                    
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return fact;
+    }
+    public int actualizar(Factura factu){
+        String sql = "call sp_EditarFactura(?,?,?,?,?,?)";
+        resp = 0;
+        try{
+            con = cn.Conexion();
+            ps = con.prepareStatement(sql);
+            ps.setInt(1, factu.getCodigoFactura());
+            ps.setInt(2, factu.getCodigoClienteFactura());
+            ps.setInt(3, factu.getCodigoEmpleadoFactura());
+            ps.setInt(4, factu.getCodigoAutoFactura());
+            ps.setString(5, factu.getFechaEmision());
+            ps.setString(6, factu.getMetodoPago().name());
+            resp = ps.executeUpdate();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return resp;
+    }
+    public void eliminar(int id){
+        String sql = "call sp_EliminarFactura("+id+");";
+        try{
+            con = cn.Conexion();
+            ps = con.prepareStatement(sql);
+            ps.executeUpdate();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
 }

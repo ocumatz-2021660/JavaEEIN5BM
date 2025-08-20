@@ -60,7 +60,8 @@
                 <div class="formulario">
                     <h2>Agregar / Modificar Factura</h2>
                     <form action="Controlador?menu=FacturaAdmin" method="POST">                        
-
+                        <input type="hidden" name="txtCodigoFactura" value="${factura.getCodigoFactura()}" />
+                        
                         <label for="codigoClienteFactura">Cliente</label>
                         <input value="${factura.getCodigoClienteFactura()}" min="0" type="number" name="txtCodigoClienteFactura" placeholder="Nombre del cliente" required/>
 
@@ -79,7 +80,7 @@
                             <option value="Targeta">Targeta</option>
                         </select>
                         <button name="accion" value="Agregar" class="btn btn-primary btn-block btn-agregar">Agregar</button>
-                        <button name="accion" value="Buscar" class="btn btn-primary btn-block btn-Actualizar">Actualizar</button>
+                        <button name="accion" value="Actualizar" class="btn btn-primary btn-block btn-Actualizar">Actualizar</button>
                     </form>
                     <button class="scroll-footer-btn" onclick="document.getElementById('footer').scrollIntoView({behavior: 'smooth'})">Ir al final</button>
                 </div>
@@ -111,8 +112,8 @@
                                     <td>${factura.getTotal()}</td>                                    
                                     <td>${factura.getMetodoPago()}</td>
                                     <td>
-                                        <button name="accion" value="Buscar" class="btn btn-primary btn-block btn-Actualizar">Editar</button>
-                                        <button name="accion" value="Buscar" class="btn btn-primary btn-block btn-drop">Eliminar</button>
+                                        <a name="accion" value="Buscar" class="btn btn-primary btn-block btn-Actualizar" href="Controlador?menu=FacturaAdmin&accion=Editar&codigoFactura=${factura.getCodigoFactura()}" >Editar</a>
+                                        <a name="accion" value="Buscar" class="btn btn-primary btn-block btn-drop" href="Controlador?menu=FacturaAdmin&accion=Eliminar&codigoFactura=${factura.getCodigoFactura()}">Elimina</a>
                                     </td>
                                 </tr>
                             </c:forEach>
@@ -127,14 +128,13 @@
                 <h2>Buscar y Eliminar Factura</h2>
                 <div class="acciones-inputs">
                     <div>
-                        <label for="buscar-factura">Buscar No. Factura</label>
-                        <input type="text" id="buscar-factura" placeholder="Ej: 1010" />
+                        <label for="buscar-factura">Buscar No. Factura</label>                        
                         <button name="accion" value="Buscar" class="btn btn-primary btn-block btn-agregar">Buscar</button>
                     </div>
                     <div>
                         <label for="eliminar-factura">Eliminar No. Factura</label>
                         <input type="text" id="eliminar-factura" placeholder="Ej: 1010" />
-                        <button name="accion" value="Buscar" class="btn btn-primary btn-block btn-drop">Eliminar</button>
+                        <button name="accion" value="Buscar" >Eliminar</button>
                     </div>
                 </div>
             </section>

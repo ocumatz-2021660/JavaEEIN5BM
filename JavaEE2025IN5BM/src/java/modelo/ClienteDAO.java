@@ -8,13 +8,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ClienteDAO {
-    
+
     Conexion cn = new Conexion();
     Connection con;
     PreparedStatement ps;
     ResultSet rs;
     int resp;
-    
+    Cliente cliente = new Cliente();
+
     public Cliente validar(String email, String pass) {
         Cliente cliente = new Cliente();
         String sql = "call sp_validarCliente(?, ?)";
@@ -37,7 +38,7 @@ public class ClienteDAO {
         }
         return cliente;
     }
-    
+
     public List listar() {
         String sql = "call sp_ListarCliente();";
         List<Cliente> listaClientes = new ArrayList<>();
@@ -61,9 +62,9 @@ public class ClienteDAO {
         }
         return listaClientes;
     }
-    
+
     public int agregar(Cliente cl) {
-        String sql = "call sp_AgregarCliente(?, ?, ?, ?, ?, ?)";
+        String sql = "call sp_AgregarCliente(?,?,?,?,?,?);";
         try {
             con = cn.Conexion();
             ps = con.prepareStatement(sql);
@@ -78,5 +79,55 @@ public class ClienteDAO {
             e.printStackTrace();
         }
         return resp;
+    }
+
+    public Cliente lisarCodigoCliente(int id) {
+        Cliente clie = new Cliente();
+        String sql = "call sp_BuscarCliente(" + id + ");";
+        try {
+            con = cn.Conexion();
+            ps = con.prepareStatement(sql);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                clie.setNombreCliente(rs.getString(2));
+                clie.setTelefonoCliente(rs.getString(3));
+                clie.setCorreoCliente(rs.getString(4));
+                clie.setDireccion(rs.getString(5));
+                clie.setContrasena(rs.getString(6));
+                clie.setRol(rs.getString(7));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return clie;
+    }
+
+    public int actualizar(Cliente cli) {
+        String sql = "call sp_ModificarCliente(?,?,?,?,?,?,?);";
+        try {
+            con = cn.Conexion();
+            ps = con.prepareStatement(sql);
+            ps.setString(1, cli.getNombreCliente());
+            ps.setString(2, cli.getTelefonoCliente());
+            ps.setString(3, cli.getCorreoCliente());
+            ps.setString(4, cli.getDireccion());
+            ps.setString(5, cli.getContrasena());
+            ps.setString(6, cli.getRol());
+            ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return resp;
+    }
+
+    public void eliminar(int id) {
+        String sql = "call sp_EliminarCliente(" + id + ");";
+        try {
+            con = cn.Conexion();
+            ps = con.prepareStatement(sql);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

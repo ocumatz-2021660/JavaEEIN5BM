@@ -1,4 +1,4 @@
--- drop database if exists DB_Taller;
+ drop database if exists DB_Taller;
 create database DB_Taller;
 use DB_Taller;
 
@@ -22,6 +22,7 @@ create table Cliente(
     direccion varchar(250),	
     contrasena varchar(250),
     rol varchar(250),
+    fotoPerfil longblob, -- foto cliente
     primary key PK_codigoCliente(codigoCliente)
 );
 -- AUTO
@@ -1076,7 +1077,6 @@ create procedure sp_EditarFactura(
     in empleado int ,
     in auto int ,
     in fechaIngreso date ,
-    in totalPago double(10,2),
     in formaPago enum("Targeta","Efectivo")
 )
 	begin
@@ -1086,12 +1086,11 @@ create procedure sp_EditarFactura(
             codigoEmpleadoFactura = empleado, 
             codigoAutoFactura = auto,
             fechaEmision = fechaIngreso,
-            total = totalPago,
             metodoPago = formaPago
 				where codigoFactura = idFactura;
     end //
 DELIMITER ;
-call sp_EditarFactura(2,2,5,2,"2025-01-15",0.0,"Targeta");
+-- call sp_EditarFactura(3,2,5,2,"2025-01-15","Efectivo");
 
 -- PROCEDIMIENO DETALLE FACTURA
 -- AGREGAR DETALLESFACTURA

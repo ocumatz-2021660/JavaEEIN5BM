@@ -15,6 +15,15 @@ public class Cliente {
     public Cliente(){
         
     }
+        public Cliente(int codigoCliente, String nombreCliente, String telefonoCliente, String correoCliente, String direccion, String contrasena, String rol) {
+        this.codigoCliente = codigoCliente;
+        this.nombreCliente = nombreCliente;
+        this.telefonoCliente = telefonoCliente;
+        this.correoCliente = correoCliente;
+        this.direccion = direccion;
+        this.contrasena = contrasena;
+        this.rol = rol;
+    }
 
     public int getCodigoCliente() {
         return codigoCliente;
@@ -75,16 +84,6 @@ public class Cliente {
     @Override
     public String toString() {
         return "Cliente{" + "codigoCliente=" + codigoCliente + ", nombreCliente=" + nombreCliente + ", telefonoCliente=" + telefonoCliente + ", correoCliente=" + correoCliente + ", direccion=" + direccion + ", contrasena=" + contrasena + ", rol=" + rol + '}';
-    }
-
-    public Cliente(int codigoCliente, String nombreCliente, String telefonoCliente, String correoCliente, String direccion, String contrasena, String rol) {
-        this.codigoCliente = codigoCliente;
-        this.nombreCliente = nombreCliente;
-        this.telefonoCliente = telefonoCliente;
-        this.correoCliente = correoCliente;
-        this.direccion = direccion;
-        this.contrasena = contrasena;
-        this.rol = rol;
     }
     
 }

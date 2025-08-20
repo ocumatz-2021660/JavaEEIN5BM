@@ -74,7 +74,7 @@
                         <label for="rol">Rol</label>
                         <input type="text" value="${cliente.getRol()}" name="txtRol" placeholder="Rol" required/>
                         <button name="accion" value="Agregar" class="btn btn-primary btn-block btn-agregar">Agregar</button>
-                        <button name="accion" value="Buscar" class="btn btn-primary btn-block btn-Actualizar">Actualizar</button>
+                        <button name="accion" value="Actualizar" class="btn btn-primary btn-block btn-Actualizar">Actualizar</button>
                     </form>
                     <button class="scroll-footer-btn" onclick="document.getElementById('footer').scrollIntoView({behavior: 'smooth'})">Ir al final</button>
                 </div>
@@ -106,8 +106,8 @@
                                     <td>${cliente.getContrasena()}</td>
                                     <td>${cliente.getRol()}</td>
                                     <td id="table-button">   
-                                        <button name="accion" value="Buscar" class="btn btn-primary btn-block btn-Actualizar">Editar</button>
-                                        <button name="accion" value="Buscar" class="btn btn-primary btn-block btn-drop">Eliminar</button>
+                                        <a name="accion" value="Buscar" class="btn btn-primary btn-block btn-Actualizar" href="Controlador?menu=ClientesAdmin&accion=Editar&codigoCliente=${cliente.getCodigoCliente()}" >Editar</a>
+                                        <a name="accion" value="Buscar" class="btn btn-primary btn-block btn-drop" href="Controlador?menu=ClientesAdmin&accion=Eliminar&codigoCliente=${cliente.getCodigoCliente()}">Elimina</a>
                                     </td>
                                 </tr>
                             </c:forEach>
