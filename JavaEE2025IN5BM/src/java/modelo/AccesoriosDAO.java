@@ -1,65 +1,108 @@
-
 package modelo;
-
+ 
 import config.Conexion;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
-
-/**
- *
- * @author informatica
- */
+ 
 public class AccesoriosDAO {
+ 
     Conexion cn = new Conexion();
     Connection con;
     PreparedStatement ps;
     ResultSet rs;
     int resp;
-    Accesorio accesorio = new Accesorio();
-    
-    public List listar() {
+ 
+    public List<Accesorio> listar() {
         String sql = "CALL sp_listarAccesorios();";
-        List<Accesorio> listaAccesorio = new ArrayList<>();
+        List<Accesorio> listaAccesorios = new ArrayList<>();
         try {
             con = cn.Conexion();
             ps = con.prepareStatement(sql);
             rs = ps.executeQuery();
             while (rs.next()) {
-                Accesorio Acc = new Accesorio();
-                Acc.setCodigoAccesorio(rs.getInt(1));
-                Acc.setNombreAccesorio(rs.getString(2));
-                Acc.setDescripcionAccesorio(rs.getString(3));
-                Acc.setPrecioAccesorio(rs.getDouble(4));
-                Acc.setStockAccesorio(rs.getInt(5));
-                Acc.setEstadoAccesorio(Accesorio.EstadoAccesorio.valueOf(rs.getString(6)));
-                listaAccesorio.add(Acc);
+                Accesorio acc = new Accesorio();
+                acc.setCodigoAccesorio(rs.getInt(1));
+                acc.setNombreAccesorio(rs.getString(2));
+                acc.setDescripcionAccesorio(rs.getString(3));
+                acc.setPrecioAccesorio(rs.getDouble(4));
+                acc.setStockAccesorio(rs.getInt(5));
+                acc.setEstadoAccesorio(Accesorio.EstadoAccesorio.valueOf(rs.getString(6)));
+                listaAccesorios.add(acc);
             }
-           
-        }catch(Exception e){
-                    e.printStackTrace();
-                    
-        } return listaAccesorio ;
-}
-    
-     public int agregar(Accesorio Acc) {
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return listaAccesorios;
+    }
+ 
+    public int agregar(Accesorio acc) {
         String sql = "CALL sp_insertarAccesorio(?, ?, ?, ?, ?);";
         try {
             con = cn.Conexion();
             ps = con.prepareStatement(sql);
-            ps.setString(1, Acc.getNombreAccesorio());
-            ps.setString(2, Acc.getDescripcionAccesorio());
-            ps.setDouble(3, Acc.getPrecioAccesorio());
-            ps.setInt(4, Acc.getStockAccesorio());
-            ps.setString(5, Acc.getEstadoAccesorio().name());
-            ps.executeUpdate();
+            ps.setString(1, acc.getNombreAccesorio());
+            ps.setString(2, acc.getDescripcionAccesorio());
+            ps.setDouble(3, acc.getPrecioAccesorio());
+            ps.setInt(4, acc.getStockAccesorio());
+            ps.setString(5, acc.getEstadoAccesorio().name());
+            resp = ps.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
         }
         return resp;
     }
+ 
+    public Accesorio listarCodigoAccesorio(int id) {
+        Accesorio acc = new Accesorio();
+        String sql = "CALL sp_buscarAccesorio(" + id + ");";
+        try {
+            con = cn.Conexion();
+            ps = con.prepareStatement(sql);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                acc.setCodigoAccesorio(rs.getInt(1));
+                acc.setNombreAccesorio(rs.getString(2));
+                acc.setDescripcionAccesorio(rs.getString(3));
+                acc.setPrecioAccesorio(rs.getDouble(4));
+                acc.setStockAccesorio(rs.getInt(5));
+                acc.setEstadoAccesorio(Accesorio.EstadoAccesorio.valueOf(rs.getString(6)));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return acc;
     }
-    
-    
+ 
+    public int actualizar(Accesorio acc) {
+        int resp = 0;
+        String sql = "UPDATE Accesorio SET nombreAccesorio=?, descripcionAccesorio=?, precioAccesorio=?, stockAccesorio=?, estadoAccesorio=? WHERE codigoAccesorio=?;";
+        try {
+            con = cn.Conexion();
+            ps = con.prepareStatement(sql);
+            ps.setString(1, acc.getNombreAccesorio());
+            ps.setString(2, acc.getDescripcionAccesorio());
+            ps.setDouble(3, acc.getPrecioAccesorio());
+            ps.setInt(4, acc.getStockAccesorio());
+            ps.setString(5, acc.getEstadoAccesorio().name());
+            ps.setInt(6, acc.getCodigoAccesorio());
+            resp = ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return resp;
+    }
+ 
+    public void eliminar(int id) {
+        String sql = "CALL sp_eliminarAccesorio(" + id + ");";
+        try {
+            con = cn.Conexion();
+            ps = con.prepareStatement(sql);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}

@@ -11,7 +11,7 @@ import java.sql.SQLException;
         try {
            Class.forName("com.mysql.jdbc.Driver");
            String url = "jdbc:mysql://localhost:3306/DB_Taller?useSSL=false&allowPublicKeyRetrieval=true";
-           String user = "quintom";
+           String user = "root";
            String password = "admin";
            conexion = (Connection) DriverManager.getConnection(url, user, password);
        } catch (ClassNotFoundException error) {
