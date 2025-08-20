@@ -32,8 +32,12 @@ public class Controlador extends HttpServlet {
     ReparacionDAO reparacionDAO = new ReparacionDAO();
     OrdenReparacion ordenReparacion = new OrdenReparacion();
     OrdenReparacionDAO ordenReparacionDAO = new OrdenReparacionDAO();
+    Repuesto repuesto = new Repuesto();
+    RepuestoDao repuestoDao = new RepuestoDao();
     int codReparacion;
     int codOrdenReparacion;
+    int codRepuesto; 
+    
 
     Accesorio accesorio = new Accesorio();
     AccesoriosDAO accesorioDao = new AccesoriosDAO();
@@ -349,16 +353,60 @@ public class Controlador extends HttpServlet {
         } else if (menu.equals("RepuestosAdmin")) {
             switch (accion) {
                 case "Listar":
+                    List<Repuesto> listaRepuestos = repuestoDao.listar();
+                    request.setAttribute("repuestos", listaRepuestos);
+                    System.out.println("Mostrar Repuestos");
                     break;
                 case "Agregar":
+                    String nombreRepuesto = request.getParameter("txtNombreRepuesto");
+                    String descripcionRepuesto = request.getParameter("txtDescripcionRepuesto");
+                    double precioRepuesto = Double.parseDouble(request.getParameter("txtPrecioRepuesto"));
+                    int stockRepuesto = Integer.parseInt(request.getParameter("txtStockRepuesto"));
+                    String estadoRepuesto = request.getParameter("txtEstadoRepuesto");
+
+                    repuesto.setNombreRepuesto(nombreRepuesto);
+                    repuesto.setDescripcionRepuesto(descripcionRepuesto);
+                    repuesto.setPrecioRepuesto(precioRepuesto);
+                    repuesto.setStockRepuesto(stockRepuesto);
+                    repuesto.setEstadoRepuesto(Repuesto.EstadoRepuesto.valueOf(estadoRepuesto));
+
+                    repuestoDao.agregar(repuesto);
+                    if (repuesto != null) {
+                        request.getRequestDispatcher("Controlador?menu=RepuestosAdmin&accion=Listar").forward(request, response);
+                        System.out.println("Repuesto Agregado correctamente");
+                    } else {
+                        System.out.println("No se pudo agregar el repuesto");
+                    }
                     break;
                 case "Editar":
+                    codRepuesto = Integer.parseInt(request.getParameter("id"));
+                    Repuesto rep = repuestoDao.listarCodigoRepuesto(codRepuesto);
+                    request.setAttribute("repuesto", rep);
+                    request.getRequestDispatcher("Controlador?menu=RepuestosAdmin&accion=Listar").forward(request, response);
                     break;
                 case "Actualizar":
+                    int codigoRepuesto = Integer.parseInt(request.getParameter("txtCodigoRepuesto"));
+                    String nombreRep = request.getParameter("txtNombreRepuesto");
+                    String descripcionRep = request.getParameter("txtDescripcionRepuesto");
+                    double precioRep = Double.parseDouble(request.getParameter("txtPrecioRepuesto"));
+                    int stockRep = Integer.parseInt(request.getParameter("txtStockRepuesto"));
+                    String estadoRep = request.getParameter("txtEstadoRepuesto");
+                    
+                    Repuesto repuesto = new Repuesto();
+                    repuesto.setCodigoRepuesto(codigoRepuesto);
+                    repuesto.setNombreRepuesto(nombreRep);
+                    repuesto.setDescripcionRepuesto(descripcionRep);
+                    repuesto.setPrecioRepuesto(precioRep);
+                    repuesto.setStockRepuesto(stockRep);
+                    repuesto.setEstadoRepuesto(Repuesto.EstadoRepuesto.valueOf(estadoRep));
+                    
+                    repuestoDao.actualizar(repuesto);
+                    request.getRequestDispatcher("Controlador?menu=RepuestosAdmin&accion=Listar").forward(request, response);
                     break;
                 case "Eliminar":
-                    break;
-                case "Buscar":
+                    codRepuesto = Integer.parseInt(request.getParameter("id"));
+                    repuestoDao.eliminar(codRepuesto);
+                    request.getRequestDispatcher("Controlador?menu=RepuestosAdmin&accion=Listar").forward(request, response);
                     break;
             }
             request.getRequestDispatcher("RepuestosAdmin.jsp").forward(request, response);
