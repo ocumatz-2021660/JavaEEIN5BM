@@ -164,37 +164,71 @@ public class Controlador extends HttpServlet {
                     break;
             }
             request.getRequestDispatcher("MecanicosAdmin.jsp").forward(request, response);
-        } else if (menu.equals("LlantasAdmin")) {
+     } else if (menu.equals("LlantasAdmin")) {
             switch (accion) {
                 case "Listar":
-                    List<modelo.Llanta> listarLlantas = llantaDAO.listar();
-                    request.setAttribute("Llantas", listarLlantas);
+                    List<Llanta> listaLlantas = llantaDAO.listar();
+                    request.setAttribute("llantas", listaLlantas);
+                    request.getRequestDispatcher("LlantasAdmin.jsp").forward(request, response);
                     break;
                 case "Agregar":
-                    String anchoMilimentosStr = request.getParameter("txtAnchoMilimentos");
-                    String perfilStr = request.getParameter("txtPerfil");
-                    String tipoConstruccion = request.getParameter("txtTipoConstruccion");
-                    String diametroRinStr = request.getParameter("txtDiametroRin");
-                    String cargaMaximakgStr = request.getParameter("txtCargaMaximakg");
-                    String precioLlantaStr = request.getParameter("txtPrecioLlanta");
-                    int anchoMilimentos = Integer.parseInt(anchoMilimentosStr);
-                    int perfil = Integer.parseInt(perfilStr);
-                    int diametroRin = Integer.parseInt(diametroRinStr);
-                    int cargaMaximakg = Integer.parseInt(cargaMaximakgStr);
-                    double precioLlanta = Double.parseDouble(precioLlantaStr);
-                    llanta.setPerfil(perfil);
-                    llanta.setDiametroRin(diametroRin);
-                    llanta.setCargaMaximakg(cargaMaximakg);
-                    llanta.setPrecioLlanta(precioLlanta);
-                    String agregar = "Controlador?menu=LlantasAdmin&accion=Listar";
+                    try {
+                        int anchoMilimetros = Integer.parseInt(request.getParameter("txtAnchoLlanta"));
+                        int perfil = Integer.parseInt(request.getParameter("txtPerfilLlanta"));
+                        String tipoConstruccion = request.getParameter("txtTipoConstruccion");
+                        int diametroRin = Integer.parseInt(request.getParameter("txtDiametroRinLlanta"));
+                        int cargaMaximaKg = Integer.parseInt(request.getParameter("txtCargaMaximaKgLlanta"));
+                        double precioLlanta = Double.parseDouble(request.getParameter("txtPrecioLlanta"));
+                        Llanta llanta = new Llanta();
+                        llanta.setAnchoMilimetros(anchoMilimetros);
+                        llanta.setPerfil(perfil);
+                        llanta.setTipoConstruccion(Llanta.TipoConstruccion.valueOf(tipoConstruccion));
+                        llanta.setDiametroRin(diametroRin);
+                        llanta.setCargaMaximakg(cargaMaximaKg);
+                        llanta.setPrecioLlanta(precioLlanta);
+                        llantaDAO.agregar(llanta);
+                        request.getRequestDispatcher("Controlador?menu=LlantasAdmin&accion=Listar").forward(request, response);
+                        System.out.println("Llanta agregada correctamente");
+                    } catch (NumberFormatException e) {
+                        System.out.println("Error al convertir valores numéricos: " + e.getMessage());
+                        request.getRequestDispatcher("LlantasAdmin.jsp").forward(request, response);
+                    }
                     break;
                 case "Editar":
+                    int codLlanta = Integer.parseInt(request.getParameter("codigoLlanta"));
+                    Llanta llantaEditar = llantaDAO.listarCodigoLlanta(codLlanta);
+                    request.setAttribute("llanta", llantaEditar);
+                    request.getRequestDispatcher("Controlador?menu=LlantasAdmin&accion=Listar").forward(request, response);
                     break;
                 case "Actualizar":
+                    try {
+                        int codigoLlanta = Integer.parseInt(request.getParameter("txtCodigoLlanta"));
+                        int anchoMili = Integer.parseInt(request.getParameter("txtAnchoLlanta"));
+                        int perf = Integer.parseInt(request.getParameter("txtPerfilLlanta"));
+                        String tipo = request.getParameter("txtTipoConstruccion");
+                        int diametroR = Integer.parseInt(request.getParameter("txtDiametroRinLlanta"));
+                        int carga = Integer.parseInt(request.getParameter("txtCargaMaximaKgLlanta"));
+                        double precioLlan = Double.parseDouble(request.getParameter("txtPrecioLlanta"));
+                        Llanta llanta = new Llanta();
+                        llanta.setCodigoLlanta(codigoLlanta);
+                        llanta.setAnchoMilimetros(anchoMili);
+                        llanta.setPerfil(perf);
+                        llanta.setTipoConstruccion(Llanta.TipoConstruccion.valueOf(tipo));
+                        llanta.setDiametroRin(diametroR);
+                        llanta.setCargaMaximakg(carga);
+                        llanta.setPrecioLlanta(precioLlan);
+                        llantaDAO.actualizar(llanta);
+                        request.getRequestDispatcher("Controlador?menu=LlantasAdmin&accion=Listar").forward(request, response);
+                        System.out.println("Llanta actualizada correctamente");
+                    } catch (NumberFormatException e) {                       
+                        request.getRequestDispatcher("LlantasAdmin.jsp").forward(request, response);
+                         System.out.println("Error al convertir valores numéricos: " + e.getMessage());
+                    }
                     break;
                 case "Eliminar":
-                    break;
-                case "Buscar":
+                    codLlanta = Integer.parseInt(request.getParameter("codigoLlanta"));
+                    llantaDAO.eliminar(codLlanta);
+                    request.getRequestDispatcher("Controlador?menu=LlantasAdmin&accion=Listar").forward(request, response);
                     break;
             }
             request.getRequestDispatcher("LlantasAdmin.jsp").forward(request, response);
