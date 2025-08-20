@@ -60,6 +60,8 @@
                     <h2>Agregar / Modificar Servicio</h2>
                     <form action="Controlador?menu=ServiciosAdmin" method="POST">
 
+                        <input type="hidden" name="txtCodigoServicio" value="${servicio.getCodigoServicio()}" />
+                        
                         <label for="nombreServicio">Nombre del Servicio</label>
                         <input value="${servicio.getNombreServicio()}" type="text" name="txtNombreServicio" placeholder="Ej: Cambio de aceite" required />
 
@@ -69,7 +71,7 @@
                         <label for="precioServicio">Precio</label>
                         <input value="${servicio.getPrecioServicio()}" min="0" type="number" name="txtPrecioServicio" placeholder="Ej: 150.00" required/>
                         <button name="accion" value="Agregar" class="btn btn-primary btn-block btn-agregar">Agregar</button>
-                        <button name="accion" value="Buscar" class="btn btn-primary btn-block btn-Actualizar">Actualizar</button>
+                        <button name="accion" value="Actualizar" class="btn btn-primary btn-block btn-Actualizar">Actualizar</button>
 
                     </form>
                     <button class="scroll-footer-btn" onclick="document.getElementById('footer').scrollIntoView({behavior: 'smooth'})">Ir al final</button>
@@ -96,8 +98,8 @@
                                     <td>${servicio.getDescripcionServicio()}</td>
                                     <td>${servicio.getPrecioServicio()}</td>
                                     <td>
-                                        <button name="accion" value="Buscar" class="btn btn-primary btn-block btn-Actualizar">Editar</button>
-                                        <button name="accion" value="Buscar" class="btn btn-primary btn-block btn-drop">Eliminar</button>
+                                        <a name="accion" value="Buscar" class="btn btn-primary btn-block btn-Actualizar" href="Controlador?menu=ServiciosAdmin&accion=Editar&codigoServicio=${servicio.getCodigoServicio()}">Editar</a>
+                                        <a name="accion" value="Buscar" class="btn btn-primary btn-block btn-drop" href="Controlador?menu=ServiciosAdmin&accion=Eliminar&codigoServicio=${servicio.getCodigoServicio()}">Eliminar</a>
                                     </td>
                                 </tr>
                             </c:forEach>
@@ -105,23 +107,7 @@
                     </table>
                 </div>
             </section>
-
-            <!-- Sección inferior -->
-            <section class="acciones">
-                <h2>Buscar y Eliminar Servicio</h2>
-                <div class="acciones-inputs">
-                    <div>
-                        <label for="buscar-servicio">Buscar Código</label>
-                        <input type="text" id="buscar-servicio" placeholder="Ej: 1" />
-                        <button>Buscar</button>
-                    </div>
-                    <div>
-                        <label for="eliminar-servicio">Eliminar Código</label>
-                        <input type="text" id="eliminar-servicio" placeholder="Ej: 1" />
-                        <button>Eliminar</button>
-                    </div>
-                </div>
-            </section>
+                        
         </main>
         <footer id="footer" style="padding: 20px; text-align:center;">
             <p>&copy; 2025 La caja de cambios - Todos los derechos reservados.</p>

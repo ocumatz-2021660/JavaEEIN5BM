@@ -2,15 +2,6 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/C:/JavaEEIN5BM/JavaEE2025IN5BM/web/index.jsp</file>
-            <file>file:/C:/JavaEEIN5BM/JavaEE2025IN5BM/src/java/modelo/ClienteDAO.java</file>
-            <file>file:/C:/JavaEEIN5BM/JavaEE2025IN5BM/src/java/modelo/FacturaDAO.java</file>
-            <file>file:/C:/JavaEEIN5BM/JavaEE2025IN5BM/src/java/controlador/Controlador.java</file>
-            <file>file:/C:/JavaEEIN5BM/JavaEE2025IN5BM/web/AutosAdmin.jsp</file>
-            <file>file:/C:/JavaEEIN5BM/JavaEE2025IN5BM/web/registro.jsp</file>
-            <file>file:/C:/JavaEEIN5BM/JavaEE2025IN5BM/src/java/modelo/AutoDAO.java</file>
-            <file>file:/C:/JavaEEIN5BM/JavaEE2025IN5BM/src/java/modelo/Auto.java</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>

@@ -60,7 +60,9 @@
                 <div class="formulario">
                     <h2>Agregar / Modificar Orden de Servicio</h2>
                     <form action="Controlador?menu=DetalleServicioAdmin" method="POST">
-
+                        
+                        <input type="hidden" name="txtCodigoOrdenServicio" value="${ordenServicio.getCodigoOrdenServicio()}" />
+                        
                         <label for="codigoAuto">Código Auto</label>
                         <input value="${ordenServicio.getCodigoAuto()}" min="0" type="number" name="txtCodigoAuto" placeholder="Ej: 2001" required>
 
@@ -71,7 +73,7 @@
                         <input value="${ordenServicio.getCodigoEmpleado()}" min="0" type="number" name="txtCodigoEmpleado" placeholder="Ej: 4001" required >
 
                         <label for="codigoServicio">Código Servicio</label>
-                        <input value="${ordenServicio.getCodigoServicio()}" min="0" type="numer" name="txtCodigoServicio" placeholder="Ej: 5001" required>
+                        <input value="${ordenServicio.getCodigoServicio()}" min="0" type="number" name="txtCodigoServicio" placeholder="Ej: 5001" required>
 
                         <label for="fechaIngreso">Fecha de Ingreso</label>
                         <input value="${ordenServicio.getFechaIngreso()}" type="text" name="txtFechaIngreso" placeholder="Ej: 2025-02-07" required>
@@ -79,11 +81,11 @@
                         <label for="estado">Estado</label>
                         <select value="${ordenServicio.getEstado()}" name="txtEstado" required>
                             <option value="Pendiente">Pendiente</option>
-                            <option value="En proceso">En proceso</option>
+                            <option value="En proceso">EnProceso</option>
                             <option value="Finalizado">Finalizado</option>
                         </select>
                         <button name="accion" value="Agregar" class="btn btn-primary btn-block btn-agregar">Agregar</button>
-                    <button name="accion" value="Buscar" class="btn btn-primary btn-block btn-Actualizar">Actualizar</button>
+                    <button name="accion" value="Actualizar" class="btn btn-primary btn-block btn-Actualizar">Actualizar</button>
                     </form>
                     <button class="scroll-footer-btn" onclick="document.getElementById('footer').scrollIntoView({behavior: 'smooth'})">Ir al final</button>
                 </div>
@@ -114,8 +116,8 @@
                                     <td>${ordenServicio.getFechaIngreso()}</td>
                                     <td>${ordenServicio.getEstado()}</td>
                                     <td>
-                                        <button name="accion" value="Buscar" class="btn btn-primary btn-block btn-Actualizar">Editar</button>
-                                        <button name="accion" value="Buscar" class="btn btn-primary btn-block btn-drop">Eliminar</button>
+                                        <a name="accion" value="Buscar" class="btn btn-primary btn-block btn-Actualizar" href="Controlador?menu=DetalleServicioAdmin&accion=Editar&codigoOrdenServicio=${ordenServicio.getCodigoOrdenServicio()}">Editar</a>
+                                        <a name="accion" value="Buscar" class="btn btn-primary btn-block btn-drop" href="Controlador?menu=DetalleServicioAdmin=Eliminar&codigoOrdenServicio=${ordenServicio.getCodigoOrdenServicio()}">Eliminar</a>
                                     </td>
                                 </tr>
                             </c:forEach>
@@ -124,25 +126,9 @@
                 </div>
             </section>
 
-            <section class="acciones">
-                <h2>Buscar y Eliminar Órdenes</h2>
-                <div class="acciones-inputs">
-                    <div>
-                        <label for="buscarOrden">Buscar Código Orden</label>
-                        <input type="text" id="buscarOrden" placeholder="Ej: 1001">
-                        <button>Buscar</button>
-                    </div>
-                    <div>
-                        <label for="eliminarOrden">Eliminar Código Orden</label>
-                        <input type="text" id="eliminarOrden" placeholder="Ej: 1001">
-                        <button>Eliminar</button>
-                    </div>
-                </div>
-            </section>
         </main>
         <footer id="footer" style="padding: 20px; text-align:center;">
             <p>&copy; 2025 La caja de cambios - Todos los derechos reservados.</p>
         </footer>
     </body>
 </html>
-

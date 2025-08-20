@@ -362,12 +362,32 @@ public class Controlador extends HttpServlet {
                     }
                     break;
                 case "Editar":
+                    int codServicio = Integer.parseInt(request.getParameter("codigoServicio"));
+                    Servicio ser = servicioDAO.listarCodigoServicio(codServicio);
+                    request.setAttribute("servicio", ser);
+                    request.getRequestDispatcher("Controlador?menu=ServiciosAdmin&accion=Listar").forward(request, response);
                     break;
                 case "Actualizar":
+                    int codigoServicio = Integer.parseInt(request.getParameter("txtCodigoServicio"));
+                    String nombre = request.getParameter("txtNombreServicio");
+                    String descripcion = request.getParameter("txtDescripcionServicio");
+                    double precio = Double.parseDouble(request.getParameter("txtPrecioServicio"));
+
+                    Servicio serv = new Servicio();
+                    serv.setCodigoServicio(codigoServicio);
+                    serv.setNombreServicio(nombre);
+                    serv.setDescripcionServicio(descripcion);
+                    serv.setPrecioServicio(precio);
+                    servicioDAO.actualizar(serv);
+                    request.getRequestDispatcher("Controlador?menu=ServiciosAdmin&accion=Listar").forward(request, response);
                     break;
                 case "Eliminar":
+                    int codigoServicioEliminar = Integer.parseInt(request.getParameter("codigoServicio"));
+                    servicioDAO.eliminar(codigoServicioEliminar);
+                    request.getRequestDispatcher("Controlador?menu=ServiciosAdmin&accion=Listar").forward(request, response);
                     break;
                 case "Buscar":
+                    // Implementar búsqueda si es necesario
                     break;
             }
             request.getRequestDispatcher("ServicioAdmin.jsp").forward(request, response);
@@ -385,7 +405,6 @@ public class Controlador extends HttpServlet {
                     int codigoServicio = Integer.parseInt(request.getParameter("txtCodigoServicio"));
                     String fechaIngreso = request.getParameter("txtFechaIngreso");
                     String estado = request.getParameter("txtEstado");
-                    OrdenServicio ordenServicio = new OrdenServicio();
                     ordenServicio.setCodigoAuto(codigoAuto);
                     ordenServicio.setCodigoCliente(codigoCliente);
                     ordenServicio.setCodigoEmpleado(codigoEmpleado);
@@ -395,18 +414,40 @@ public class Controlador extends HttpServlet {
                     ordenServicioDAO.agregar(ordenServicio);
                     if (ordenServicio != null) {
                         request.getRequestDispatcher("Controlador?menu=DetalleServicioAdmin&accion=Listar").forward(request, response);
-                        System.out.println("Servicio agregado correctamente");
+                        System.out.println("Orden de Servicio Agregada correctamente");
                     } else {
-                        System.out.println("No se pudo agregar el Servicio");
+                        System.out.println("No se pudo realizar la Orden de Servicio");
                     }
                     break;
                 case "Editar":
+                    int codOrden = Integer.parseInt(request.getParameter("codigoOrdenServicio"));
+                    OrdenServicio os = ordenServicioDAO.listarCodigoOrdenServicio(codOrden);
+                    request.setAttribute("ordenServicio", os);
+                    request.getRequestDispatcher("Controlador?menu=DetalleServicioAdmin&accion=Listar").forward(request, response);
                     break;
                 case "Actualizar":
+                    int codigoOrdenServicio = Integer.parseInt(request.getParameter("txtCodigoOrdenServicio"));
+                    int idAuto = Integer.parseInt(request.getParameter("txtCodigoAuto"));
+                    int idCliente = Integer.parseInt(request.getParameter("txtCodigoCliente"));
+                    int idEmpleado = Integer.parseInt(request.getParameter("txtCodigoEmpleado"));
+                    int idServicio = Integer.parseInt(request.getParameter("txtCodigoServicio"));
+                    String diaIngreso = request.getParameter("txtFechaIngreso");
+                    String Estado = request.getParameter("txtEstado");
+
+                    ordenServicio.setCodigoOrdenServicio(codigoOrdenServicio);
+                    ordenServicio.setCodigoAuto(idAuto);
+                    ordenServicio.setCodigoCliente(idCliente);
+                    ordenServicio.setCodigoEmpleado(idEmpleado);
+                    ordenServicio.setCodigoServicio(idServicio);
+                    ordenServicio.setFechaIngreso(diaIngreso);
+                    ordenServicio.setEstado(OrdenServicio.EstadoOrden.valueOf(Estado));
+                    ordenServicioDAO.actualizar(ordenServicio);
+                    request.getRequestDispatcher("Controlador?menu=DetalleServicioAdmin&accion=Listar").forward(request, response);
                     break;
                 case "Eliminar":
-                    break;
-                case "Buscar":
+                    codOrden = Integer.parseInt(request.getParameter("codigoOrdenServicio"));
+                    ordenServicioDAO.eliminar(codOrden);
+                    request.getRequestDispatcher("Controlador?menu=DetalleServicioAdmin&accion=Listar").forward(request, response);
                     break;
             }
             request.getRequestDispatcher("DetalleServicioAdmin.jsp").forward(request, response);

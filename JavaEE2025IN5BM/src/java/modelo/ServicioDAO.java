@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package modelo;
 
 import config.Conexion;
@@ -36,7 +32,7 @@ public class ServicioDAO {
                 serv.setCodigoServicio(rs.getInt(1));
                 serv.setNombreServicio(rs.getString(2));
                 serv.setDescripcionServicio(rs.getString(3));
-                serv.setPrecioServicio(rs.getInt(4));
+                serv.setPrecioServicio(rs.getDouble(4));
                 
                 listaServicios.add(serv);
             }
@@ -60,4 +56,53 @@ public class ServicioDAO {
         return resp;
     }
     
+    public Servicio listarCodigoServicio(int id){        
+        String sql = "call sp_buscarservicio(?);";
+        Servicio serv = null;
+        try{
+            con = cn.Conexion();
+            ps = con.prepareStatement(sql);
+            ps.setInt(1, id);
+            rs = ps.executeQuery();
+            
+            if (rs.next()) {               
+                serv = new Servicio();
+                serv.setCodigoServicio(rs.getInt(1));
+                serv.setNombreServicio(rs.getString(2));
+                serv.setDescripcionServicio(rs.getString(3));
+                serv.setPrecioServicio(rs.getDouble(4));
+            }                    
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return serv;
+    }
+    
+    public int actualizar(Servicio serv){
+        String sql = "call sp_editarservicio(?,?,?,?)";
+        resp = 0;
+        try{
+            con = cn.Conexion();
+            ps = con.prepareStatement(sql);
+            ps.setInt(1, serv.getCodigoServicio());
+            ps.setString(2, serv.getNombreServicio());
+            ps.setString(3, serv.getDescripcionServicio());
+            ps.setDouble(4, serv.getPrecioServicio());
+            resp = ps.executeUpdate();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return resp;
+    }
+    
+    public void eliminar(int id){
+        String sql = "call sp_eliminarservicio("+id+");";
+        try{
+            con = cn.Conexion();
+            ps = con.prepareStatement(sql);
+            ps.executeUpdate();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
 }
