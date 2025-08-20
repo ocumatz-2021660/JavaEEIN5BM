@@ -890,7 +890,7 @@ DELIMITER //
 CREATE PROCEDURE sp_EliminarReparacion(IN codigoReparacion INT)
 BEGIN
     SET foreign_key_checks = 0;
-    DELETE FROM Reparacion WHERE codigoReparacion = codigoReparacion;
+    DELETE FROM Reparacion WHERE codigoReparacion = p_codigoReparacion;
     SET foreign_key_checks = 1;
 END//
 DELIMITER ;

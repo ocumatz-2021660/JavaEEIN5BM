@@ -3,7 +3,6 @@
     Created on : 28/07/2025, 18:04:59
     Author     : Xavier Portillo
 --%>
-
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -48,7 +47,7 @@
             </div>
             <nav class="bannerOpciones">
                 <ul class="menu">
-                    <li><a href="MenuInicioAdmin.jsp">Inicio</a></li>
+                    <li><a href="MenuInicioAdmin.jsp">Menu Administrador</a></li>
                     <li><a href="Controlador?menu=OrdenReparacionAdmin&accion=Listar">Órdenes</a></li>
                 </ul>
             </nav>
@@ -58,18 +57,16 @@
             <section class="top-container">
                 <div class="formulario">
                     <h2>Agregar / Modificar Reparación</h2>
-                    <form action="Controlador?menu=ReparacionesAdmin" method="post">
-                        <input type="hidden" name="menu" value="ReparacionesAdmin"/>
+                    <form action="Controlador?menu=ReparacionesAdmin" method="POST">
                         <label>Nombre</label>
-                        <input type="text" name="txtNombreReparacion" value="${rep.nombreReparacion}" placeholder="Nombre"/>
+                        <input type="text" name="txtNombreReparacion" value="${rep.getNombreReparacion()}" placeholder="Nombre" required/>
                         <label>Descripción</label>
-                        <input type="text" name="txtDescripcionReparacion" value="${rep.descripcionReparacion}" placeholder="Descripción"/>
+                        <input type="text" name="txtDescripcionReparacion" value="${rep.getDescripcionReparacion()}" placeholder="Descripción" required/>
                         <label>Precio</label>
-                        <input type="text" name="txtPrecioReparacion" value="${rep.precioReparacion}" placeholder="Q0.00"/>
-                        <div>
-                            <button name="accion" value="Agregar" class="btn btn-primary btn-block btn-agregar">Agregar</button>
-                            <button name="accion" value="Actualizar" class="btn btn-primary btn-block btn-Actualizar">Actualizar</button>
-                        </div>
+                        <input type="text" name="txtPrecioReparacion" value="${rep.getPrecioReparacion()}" placeholder="Q0.00" required/>
+                        <input type="hidden" name="txtCodigoReparacion" value="${rep.getCodigoReparacion()}">
+                        <button name="accion" value="Agregar" class="btn btn-primary btn-block btn-agregar">Agregar</button>
+                        <button name="accion" value="Actualizar" class="btn btn-primary btn-block btn-Actualizar">Actualizar</button>
                     </form>
                     <button class="scroll-footer-btn" onclick="document.getElementById('footer').scrollIntoView({behavior: 'smooth'})">Ir al final</button>
                 </div>
@@ -89,13 +86,13 @@
                         <tbody>
                             <c:forEach var="rep" items="${reparaciones}">
                                 <tr>
-                                    <td>${rep.codigoReparacion}</td>
-                                    <td>${rep.nombreReparacion}</td>
-                                    <td>${rep.descripcionReparacion}</td>
-                                    <td>Q${rep.precioReparacion}</td>
-                                    <td>
-                                        <button name="accion" value="Buscar" class="btn btn-primary btn-block btn-Actualizar">Editar</button>
-                                        <button name="accion" value="Buscar" class="btn btn-primary btn-block btn-drop">Eliminar</button>
+                                    <td>${rep.getCodigoReparacion()}</td>
+                                    <td>${rep.getNombreReparacion()}</td>
+                                    <td>${rep.getDescripcionReparacion()}</td>
+                                    <td>Q${rep.getPrecioReparacion()}</td>
+                                    <td>   
+                                        <a class="btn btn-primary btn-block btn-Actualizar" href="Controlador?menu=ReparacionesAdmin&accion=Editar&codigoReparacion=${rep.getCodigoReparacion()}">Editar</a>
+                                        <a class="btn btn-primary btn-block btn-drop" href="Controlador?menu=ReparacionesAdmin&accion=Eliminar&codigoReparacion=${rep.getCodigoReparacion()}">Eliminar</a>
                                     </td>
                                 </tr>
                             </c:forEach>
@@ -108,21 +105,18 @@
                 <h2>Buscar y Eliminar Reparación</h2>
                 <div class="acciones-inputs">
                     <div>
-                        <form action="Controlador?menu=ReparacionesAdmin&accion=Buscar" method="POST">
-                            <label for="buscar-reparacion">Buscar Código Reparación</label>
-                            <input type="text" id="txtBuscar-reparacion" name="txtBuscarCodigo" placeholder="Ej: 101" />
-                            <button type="submit" id="btnBuscar-reparacion">Buscar</button>
-                        </form>
+                        <label for="buscar-reparacion">Buscar Código Reparación</label>
+                        <input type="text" id="txtBuscar-reparacion" name="txtBuscarCodigo" placeholder="Ej: 101" />
+                        <button class="btn btn-primary btn-block btn-agregar" onclick="location.href = 'Controlador?menu=ReparacionesAdmin&accion=Buscar&codigoReparacion=' + document.getElementById('txtBuscar-reparacion').value;">Buscar</button>
                     </div>
                     <div>
-                        <form action="Controlador?menu=ReparacionesAdmin&accion=Eliminar" method="POST">
-                            <label for="eliminar-reparacion">Eliminar Código Reparación</label>
-                            <input type="text" id="txtEliminar-reparacion" name="txtEliminarCodigo" placeholder="Ej: 101" />
-                            <button type="submit" id="btnEliminar-reparacion">Eliminar</button>
-                        </form>
+                        <label for="eliminar-reparacion">Eliminar Código Reparación</label>
+                        <input type="text" id="txtEliminar-reparacion" name="txtEliminarCodigo" placeholder="Ej: 101" />
+                        <button class="btn btn-primary btn-block btn-drop" onclick="location.href = 'Controlador?menu=ReparacionesAdmin&accion=Eliminar&codigoReparacion=' + document.getElementById('txtEliminar-reparacion').value;">Eliminar</button>
                     </div>
                 </div>
             </section>
+
             <footer id="footer" style="padding: 20px; text-align:center;">
                 <p>&copy; 2025 La caja de cambios - Todos los derechos reservados.</p>
             </footer>

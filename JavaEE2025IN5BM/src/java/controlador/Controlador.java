@@ -31,6 +31,9 @@ public class Controlador extends HttpServlet {
     ReparacionDAO reparacionDAO = new ReparacionDAO();
     OrdenReparacion ordenReparacion = new OrdenReparacion();
     OrdenReparacionDAO ordenReparacionDAO = new OrdenReparacionDAO();
+    int codReparacion;
+    int codOrdenReparacion;
+
     Accesorio accesorio = new Accesorio();
     AccesoriosDAO accesorioDao = new AccesoriosDAO();
     Llanta llanta = new Llanta();
@@ -189,10 +192,10 @@ public class Controlador extends HttpServlet {
                     }
                     break;
                 case "Editar":
-                     codFactura = Integer.parseInt(request.getParameter("codigoFactura"));
+                    codFactura = Integer.parseInt(request.getParameter("codigoFactura"));
                     Factura fa = facturaDAO.listarCodigoFactura(codFactura);
                     request.setAttribute("factura", fa);
-                    request.getRequestDispatcher("Controlador?menu=FacturaAdmin&accion=Listar").forward(request, response);                 
+                    request.getRequestDispatcher("Controlador?menu=FacturaAdmin&accion=Listar").forward(request, response);
                     break;
                 case "Actualizar":
                     int codigoFactura = Integer.parseInt(request.getParameter("txtCodigoFactura"));
@@ -201,7 +204,7 @@ public class Controlador extends HttpServlet {
                     int idAuto = Integer.parseInt(request.getParameter("txtCodigoAutoFactura"));
                     String diaEmision = request.getParameter("txtFechaEmision");
                     String Pago = request.getParameter("txtMetodoPago");
-                    
+
                     factura.setCodigoFactura(codigoFactura);
                     factura.setCodigoClienteFactura(idCliente);
                     factura.setCodigoEmpleadoFactura(idEmpleado);
@@ -380,63 +383,79 @@ public class Controlador extends HttpServlet {
         } else if (menu.equals("ReparacionesAdmin")) {
             switch (accion) {
                 case "Listar":
-                    List listaReparaciones = reparacionDAO.listar();
+                    List<Reparacion> listaReparaciones = reparacionDAO.listar();
                     request.setAttribute("reparaciones", listaReparaciones);
                     request.getRequestDispatcher("ReparacionesAdmin.jsp").forward(request, response);
                     break;
                 case "Agregar":
-                    String nombreReparacion = request.getParameter("txtNombreReparacion");
-                    String descripcionReparacion = request.getParameter("txtDescripcionReparacion");
-                    double precioReparacion = Double.parseDouble(request.getParameter("txtPrecioReparacion"));
-                    reparacion.setNombreReparacion(nombreReparacion);
-                    reparacion.setDescripcionReparacion(descripcionReparacion);
-                    reparacion.setPrecioReparacion(precioReparacion);
+                    reparacion.setNombreReparacion(request.getParameter("txtNombreReparacion"));
+                    reparacion.setDescripcionReparacion(request.getParameter("txtDescripcionReparacion"));
+                    reparacion.setPrecioReparacion(Double.parseDouble(request.getParameter("txtPrecioReparacion")));
                     reparacionDAO.agregar(reparacion);
-                    request.getRequestDispatcher("Controlador?menu=ReparacionesAdmin&accion=Listar").forward(request, response);
+                    response.sendRedirect("Controlador?menu=ReparacionesAdmin&accion=Listar");
                     break;
                 case "Editar":
+                    codReparacion = Integer.parseInt(request.getParameter("codigoReparacion"));
+                    Reparacion rep = reparacionDAO.listarCodigoReparacion(codReparacion);
+                    request.setAttribute("rep", rep);
+                    request.setAttribute("reparaciones", reparacionDAO.listar());
+                    request.getRequestDispatcher("ReparacionesAdmin.jsp").forward(request, response);
                     break;
                 case "Actualizar":
+                    reparacion.setCodigoReparacion(Integer.parseInt(request.getParameter("txtCodigoReparacion")));
+                    reparacion.setNombreReparacion(request.getParameter("txtNombreReparacion"));
+                    reparacion.setDescripcionReparacion(request.getParameter("txtDescripcionReparacion"));
+                    reparacion.setPrecioReparacion(Double.parseDouble(request.getParameter("txtPrecioReparacion")));
+                    reparacionDAO.actualizar(reparacion);
+                    response.sendRedirect("Controlador?menu=ReparacionesAdmin&accion=Listar");
                     break;
                 case "Eliminar":
-                    break;
-                case "Buscar":
+                    codReparacion = Integer.parseInt(request.getParameter("codigoReparacion"));
+                    reparacionDAO.eliminar(codReparacion);
+                    response.sendRedirect("Controlador?menu=ReparacionesAdmin&accion=Listar");
                     break;
             }
-            request.getRequestDispatcher("ReparacionesAdmin.jsp").forward(request, response);
         } else if (menu.equals("OrdenReparacionAdmin")) {
             switch (accion) {
                 case "Listar":
-                    List listaOrdenes = ordenReparacionDAO.listar();
+                    List<OrdenReparacion> listaOrdenes = ordenReparacionDAO.listar();
                     request.setAttribute("ordenesReparacion", listaOrdenes);
                     request.getRequestDispatcher("OrdenReparacionAdmin.jsp").forward(request, response);
                     break;
                 case "Agregar":
-                    int codigoAuto = Integer.parseInt(request.getParameter("txtCodigoAutoReparacion"));
-                    int codigoCliente = Integer.parseInt(request.getParameter("txtCodigoClienteReparacion"));
-                    int codigoEmpleado = Integer.parseInt(request.getParameter("txtCodigoEmpleadoReparacion"));
-                    int codigoRep = Integer.parseInt(request.getParameter("txtCodigoReparacion"));
-                    java.sql.Date fechaIngreso = java.sql.Date.valueOf(request.getParameter("txtFechaIngresoReparacion"));
-                    String estado = request.getParameter("txtEstadoReparacion");
-                    ordenReparacion.setCodigoAutoReparacion(codigoAuto);
-                    ordenReparacion.setCodigoClienteReparacion(codigoCliente);
-                    ordenReparacion.setCodigoEmpleadoReparacion(codigoEmpleado);
-                    ordenReparacion.setCodigoReparacion(codigoRep);
-                    ordenReparacion.setFechaIngresoReparacion(fechaIngreso);
-                    ordenReparacion.setEstadoReparacion(estado);
+                    ordenReparacion.setCodigoAutoReparacion(Integer.parseInt(request.getParameter("txtCodigoAutoReparacion")));
+                    ordenReparacion.setCodigoClienteReparacion(Integer.parseInt(request.getParameter("txtCodigoClienteReparacion")));
+                    ordenReparacion.setCodigoEmpleadoReparacion(Integer.parseInt(request.getParameter("txtCodigoEmpleadoReparacion")));
+                    ordenReparacion.setCodigoReparacion(Integer.parseInt(request.getParameter("txtCodigoReparacion")));
+                    ordenReparacion.setFechaIngresoReparacion(java.sql.Date.valueOf(request.getParameter("txtFechaIngresoReparacion")));
+                    ordenReparacion.setEstadoReparacion(request.getParameter("txtEstadoReparacion"));
                     ordenReparacionDAO.agregar(ordenReparacion);
-                    request.getRequestDispatcher("Controlador?menu=OrdenReparacionAdmin&accion=Listar").forward(request, response);
+                    response.sendRedirect("Controlador?menu=OrdenReparacionAdmin&accion=Listar");
                     break;
                 case "Editar":
-                      break;
+                    codOrdenReparacion = Integer.parseInt(request.getParameter("codigoOrdenReparacion"));
+                    OrdenReparacion ord = ordenReparacionDAO.listarCodigoOrden(codOrdenReparacion);
+                    request.setAttribute("ord", ord);
+                    request.setAttribute("ordenesReparacion", ordenReparacionDAO.listar());
+                    request.getRequestDispatcher("OrdenReparacionAdmin.jsp").forward(request, response);
+                    break;
                 case "Actualizar":
+                    ordenReparacion.setCodigoOrdenReparacion(Integer.parseInt(request.getParameter("txtCodigoOrdenReparacion")));
+                    ordenReparacion.setCodigoAutoReparacion(Integer.parseInt(request.getParameter("txtCodigoAutoReparacion")));
+                    ordenReparacion.setCodigoClienteReparacion(Integer.parseInt(request.getParameter("txtCodigoClienteReparacion")));
+                    ordenReparacion.setCodigoEmpleadoReparacion(Integer.parseInt(request.getParameter("txtCodigoEmpleadoReparacion")));
+                    ordenReparacion.setCodigoReparacion(Integer.parseInt(request.getParameter("txtCodigoReparacion")));
+                    ordenReparacion.setFechaIngresoReparacion(java.sql.Date.valueOf(request.getParameter("txtFechaIngresoReparacion")));
+                    ordenReparacion.setEstadoReparacion(request.getParameter("txtEstadoReparacion"));
+                    ordenReparacionDAO.actualizar(ordenReparacion);
+                    response.sendRedirect("Controlador?menu=OrdenReparacionAdmin&accion=Listar");
                     break;
                 case "Eliminar":
-                    break;
-                case "Buscar":
+                    codOrdenReparacion = Integer.parseInt(request.getParameter("codigoOrdenReparacion"));
+                    ordenReparacionDAO.eliminar(codOrdenReparacion);
+                    response.sendRedirect("Controlador?menu=OrdenReparacionAdmin&accion=Listar");
                     break;
             }
-            request.getRequestDispatcher("OrdenReparacionAdmin.jsp").forward(request, response);
         } else if (menu.equals("DetalleFacturaAdmin")) {
             switch (accion) {
                 case "Listar":
