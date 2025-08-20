@@ -106,26 +106,56 @@ public class Controlador extends HttpServlet {
                 case "Listar":
                     List<Empleado> listaEmpleados = empleadoDAO.listar();
                     request.setAttribute("empleados", listaEmpleados);
+                    request.getRequestDispatcher("MecanicosAdmin.jsp").forward(request, response);
                     break;
+
                 case "Agregar":
-                    String nombreEmp = request.getParameter("txtNombreEmpleado");
-                    String telefonoEmp = request.getParameter("txtTelefonoEmpleado");
-                    String correoEmp = request.getParameter("txtCorreoEmpleado");
-                    String direccionEmp = request.getParameter("txtDireccionEmpleado");
-                    String puestoEmp = request.getParameter("txtPuestoEmpleado");
-                    empleado.setNombreEmpleado(nombreEmp);
-                    empleado.setTelefonoEmpleado(telefonoEmp);
-                    empleado.setCorreoEmpleado(correoEmp);
-                    empleado.setDireccion(direccionEmp);
-                    empleado.setPuesto(Empleado.Puesto.valueOf(puestoEmp));
+                    String nombreEmpleado = request.getParameter("txtNombreEmpleado");
+                    String telefonoEmpleado = request.getParameter("txtTelefonoEmpleado");
+                    String correoEmpleado = request.getParameter("txtCorreoEmpleado");
+                    String direccionEmpleado = request.getParameter("txtDireccionEmpleado");
+                    String puestoEmpleado = request.getParameter("txtPuestoEmpleado");
+
+                    empleado.setNombreEmpleado(nombreEmpleado);
+                    empleado.setTelefonoEmpleado(telefonoEmpleado);
+                    empleado.setCorreoEmpleado(correoEmpleado);
+                    empleado.setDireccion(direccionEmpleado);
+                    empleado.setPuesto(Empleado.Puesto.valueOf(puestoEmpleado));
                     empleadoDAO.agregar(empleado);
                     request.getRequestDispatcher("Controlador?menu=MecanicosAdmin&accion=Listar").forward(request, response);
                     break;
+
                 case "Editar":
+                    int codigoEmp = Integer.parseInt(request.getParameter("codigoEmpleado"));
+                    Empleado emp = empleadoDAO.listarCodigoEmpleado(codigoEmp);
+                    request.setAttribute("empleado", emp);
+                    List<Empleado> listaEmpleadosEditar = empleadoDAO.listar(); 
+                    request.setAttribute("empleados", listaEmpleadosEditar);
+                    request.getRequestDispatcher("MecanicosAdmin.jsp").forward(request, response);
                     break;
+
                 case "Actualizar":
+                    int codigoEmpleado = Integer.parseInt(request.getParameter("txtCodigoEmpleado"));
+                    String nombreEmpAct = request.getParameter("txtNombreEmpleado");
+                    String telefonoEmpAct = request.getParameter("txtTelefonoEmpleado");
+                    String correoEmpAct = request.getParameter("txtCorreoEmpleado");
+                    String direccionEmpAct = request.getParameter("txtDireccionEmpleado");
+                    String puestoEmpAct = request.getParameter("txtPuestoEmpleado");
+
+                    empleado.setCodigoEmpleado(codigoEmpleado);
+                    empleado.setNombreEmpleado(nombreEmpAct);
+                    empleado.setTelefonoEmpleado(telefonoEmpAct);
+                    empleado.setCorreoEmpleado(correoEmpAct);
+                    empleado.setDireccion(direccionEmpAct);
+                    empleado.setPuesto(Empleado.Puesto.valueOf(puestoEmpAct));
+                    empleadoDAO.actualizar(empleado);
+                    request.getRequestDispatcher("Controlador?menu=MecanicosAdmin&accion=Listar").forward(request, response);
                     break;
+
                 case "Eliminar":
+                    int codigoEliminar = Integer.parseInt(request.getParameter("codigoEmpleado"));
+                    empleadoDAO.eliminar(codigoEliminar);
+                    request.getRequestDispatcher("Controlador?menu=MecanicosAdmin&accion=Listar").forward(request, response);
                     break;
                 case "Buscar":
                     break;

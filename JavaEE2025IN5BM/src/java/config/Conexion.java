@@ -12,7 +12,7 @@ import java.sql.SQLException;
            Class.forName("com.mysql.jdbc.Driver");
            String url = "jdbc:mysql://localhost:3306/DB_Taller?useSSL=false&allowPublicKeyRetrieval=true";
            String user = "root";
-           String password = "admin";
+           String password = "2021019";
            conexion = (Connection) DriverManager.getConnection(url, user, password);
        } catch (ClassNotFoundException error) {
            StackTraceElement elemento = error.getStackTrace()[0];
