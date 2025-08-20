@@ -117,7 +117,7 @@
                                     <td>${ordenServicio.getEstado()}</td>
                                     <td>
                                         <a name="accion" value="Buscar" class="btn btn-primary btn-block btn-Actualizar" href="Controlador?menu=DetalleServicioAdmin&accion=Editar&codigoOrdenServicio=${ordenServicio.getCodigoOrdenServicio()}">Editar</a>
-                                        <a name="accion" value="Buscar" class="btn btn-primary btn-block btn-drop" href="Controlador?menu=DetalleServicioAdmin=Eliminar&codigoOrdenServicio=${ordenServicio.getCodigoOrdenServicio()}">Eliminar</a>
+                                        <a name="accion" value="Buscar" class="btn btn-primary btn-block btn-drop" href="Controlador?menu=DetalleServicioAdmin&accion=Eliminar&codigoOrdenServicio=${ordenServicio.getCodigoOrdenServicio()}">Eliminar</a>
                                     </td>
                                 </tr>
                             </c:forEach>

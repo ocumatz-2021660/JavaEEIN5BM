@@ -1,4 +1,4 @@
- drop database if exists DB_Taller;
+-- drop database if exists DB_Taller;
 create database DB_Taller;
 use DB_Taller;
 
@@ -767,17 +767,23 @@ call sp_AgregarOrdenServicio(1, 1, 2, 1, '2025-07-01', 'Pendiente');
 call sp_AgregarOrdenServicio(2, 2, 4, 3, '2025-07-02', 'Pendiente');
 call sp_AgregarOrdenServicio(3, 3, 6, 2, '2025-07-03', 'Finalizado');
 call sp_AgregarOrdenServicio(4, 4, 8, 4, '2025-07-04', 'Pendiente');
-call sp_AgregarOrdenServicio(5, 5, 10, 5, '2025-07-05', 'En proceso');
 call sp_AgregarOrdenServicio(6, 6, 11, 6, '2025-07-05', 'Finalizado');
 call sp_AgregarOrdenServicio(7, 7, 2, 7, '2025-07-06', 'Pendiente');
-call sp_AgregarOrdenServicio(8, 8, 4, 8, '2025-07-06', 'En proceso');
 call sp_AgregarOrdenServicio(9, 9, 6, 9, '2025-07-07', 'Pendiente');
 call sp_AgregarOrdenServicio(10, 10, 8, 10, '2025-07-07', 'Finalizado');
 call sp_AgregarOrdenServicio(11, 11, 10, 1, '2025-07-08', 'Pendiente');
-call sp_AgregarOrdenServicio(3, 3, 11, 3, '2025-07-08', 'En proceso');
 call sp_AgregarOrdenServicio(1, 1, 2, 5, '2025-07-09', 'Pendiente');
 call sp_AgregarOrdenServicio(5, 5, 4, 2, '2025-07-09', 'Finalizado');
-call sp_AgregarOrdenServicio(2, 2, 6, 6, '2025-07-10', 'En proceso');
+
+-- ----------------- Eliminar orden Servicio -------------------
+delimiter //
+Create procedure sp_EliminarOrdenServicio(in cOrden int)
+begin
+	delete from OrdenServicio where codigoOrdenServicio = cOrden;
+end //
+delimiter ;
+
+call sp_EliminarOrdenServicio(2);
 
 -- ------------------- Listar orden Servicio ---------------------
 delimiter //
@@ -790,16 +796,6 @@ end //
 delimiter ;
 
 call sp_ListarOrdenServicio();
-
--- ----------------- Eliminar orden Servicio -------------------
-delimiter //
-Create procedure sp_EliminarOrdenServicio(in cOrden int)
-begin
-	delete from OrdenServicio where codigoOrdenServicio = cOrden;
-end //
-delimiter ;
-
--- call sp_EliminarOrdenServicio(3);
 
 -- --------------------- Buscar orden Servicio -----------------
 delimiter //
